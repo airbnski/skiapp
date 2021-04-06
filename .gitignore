@@ -109,3 +109,4 @@ tmp
 ui/dist-assembled
 ui/dist-assembled-dev
 ui/proxy/user.credentials*
+package-lock.json
