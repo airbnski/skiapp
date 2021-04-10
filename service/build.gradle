@@ -1,0 +1,4 @@
+allprojects {
+    group = 'airbnski'
+    version = '0.0.1'
+}
