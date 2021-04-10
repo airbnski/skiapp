@@ -1,0 +1,23 @@
+
+* text eol=lf
+
+*.jar binary
+*.jpg binary
+*.pdf binary
+*.png binary
+*.gif binary
+*.gz  binary
+*.eot binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+
+# don't convert LF to CRLF in *.gpg files
+*.gpg eol=lf
+
+*.eot binary
+*.otf binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+
