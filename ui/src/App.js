@@ -2,13 +2,14 @@ import "./App.css";
 import AppBar from "./components/AppBar";
 import InteractiveMap from "./components/InteractiveMap";
 import ResortList from "./components/ResortList";
-import {Grid} from "@material-ui/core";
+import {Grid, InputAdornment, TextField} from "@material-ui/core";
 import {useEffect, useState} from "react";
 import Sun from "./images/001-sun.svg";
 import Cloud from "./images/002-cloud.svg";
 import Rain from "./images/003-rain.svg";
 import Cloudy from "./images/004-cloudy.svg";
 import Snow from "./images/005-snowflake.svg";
+import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 
 function App() {
     const [resortList, setResortList] = useState([]);
@@ -45,6 +46,16 @@ function App() {
             <AppBar/>
             <Grid container spacing={2} style={{margin: 0}}>
                 <Grid item xs={3} style={{height: 'calc(100vh - 70px)', overflowY: 'auto'}}>
+                    <TextField id="location" type="text" default={"Zurich"} label="Location" variant="outlined"
+                               InputProps={{
+                                   startAdornment: (
+                                       <InputAdornment position="start">
+                                           <LocationOnOutlinedIcon />
+                                       </InputAdornment>
+                                   ),
+                               }}
+                               style={{width: '90%', margin: 10}}
+                    />
                     <ResortList resorts={resortList}/>
                 </Grid>
                 <Grid item xs={9} style={{height: 'calc(100vh - 70px)'}}>
