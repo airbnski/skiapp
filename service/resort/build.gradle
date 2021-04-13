@@ -27,6 +27,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.5.22'
+	swaggerUI 'org.webjars:swagger-ui:3.10.0'
 	swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'     // or OpenAPI Generator
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
@@ -36,7 +37,7 @@ test {
 	useJUnitPlatform()
 }
 
-swaggerSources {
+/*swaggerSources {
 	resort {
 		inputFile = file('src/main/resources/resort.yaml')
 		code {
@@ -47,6 +48,16 @@ swaggerSources {
 		}
 	}
 }
+
+swaggerSources {
+	resort {
+		inputFile = file('src/main/resources/resort.yaml')
+		code {
+			language = 'html2'
+			outputDir = file("$buildDir/swagger-html")
+		}
+	}
+}*/
 
 /*compileJava.dependsOn swaggerSources.resort.code
 sourceSets.main.java.srcDir "${swaggerSources.resort.code.outputDir}/src/main/java"
