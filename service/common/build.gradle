@@ -8,12 +8,12 @@ group = 'airbnski'
 version = '0.0.1'
 sourceCompatibility = '1.8'
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+bootJar {
+	enabled = false
 }
-
+jar {
+	enabled = true
+}
 repositories {
 	mavenCentral()
 }

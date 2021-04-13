@@ -1,4 +1,4 @@
-package airbnski.resort.client.domain;
+package airbnski.resort.client.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

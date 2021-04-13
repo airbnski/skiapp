@@ -1,15 +1,18 @@
-package airbnski.resort.client.domain;
+package airbnski.resort.client.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Tag {
+public class Slope {
 
-    public Tag() {
+    public Slope() {
     }
 
     private Long id;
+
     private String name;
+
+    private Media media;
 
     public Long getId() {
         return id;
@@ -26,4 +29,13 @@ public class Tag {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Media getMedia() {
+        return media;
+    }
+
+    public void setMedia(Media media) {
+        this.media = media;
+    }
+
 }

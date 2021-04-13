@@ -1,0 +1,6 @@
+{
+  "library" : "spring-boot",
+  "modelPackage" : "airbnski.resort.generated.model",
+  "apiPackage" : "airbnski.resort.generated.api",
+  "generateSupportingFiles" : false
+}

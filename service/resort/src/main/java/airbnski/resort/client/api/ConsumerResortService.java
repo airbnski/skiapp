@@ -1,6 +1,6 @@
-package airbnski.resort.client.rest;
+package airbnski.resort.client.api;
 
-import airbnski.common.client.rest.ConsumerService;
+import airbnski.common.client.api.ConsumerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

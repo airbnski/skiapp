@@ -1,6 +1,6 @@
-package airbnski.common.client.rest;
+package airbnski.common.client.api;
 
-import airbnski.common.client.domain.AbstractEntity;
+import airbnski.common.client.model.AbstractEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

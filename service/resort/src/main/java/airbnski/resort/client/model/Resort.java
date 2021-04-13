@@ -1,6 +1,6 @@
-package airbnski.resort.client.domain;
+package airbnski.resort.client.model;
 
-import airbnski.common.client.domain.AbstractEntity;
+import airbnski.common.client.model.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
