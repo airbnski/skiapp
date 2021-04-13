@@ -2,5 +2,7 @@
   "library" : "spring-boot",
   "modelPackage" : "airbnski.resort.generated.model",
   "apiPackage" : "airbnski.resort.generated.api",
+  "invokerPackage" : "airbnski.resort.generated",
+  "configurationPackage" : "airbnski.resort.generated.configuration",
   "generateSupportingFiles" : false
 }

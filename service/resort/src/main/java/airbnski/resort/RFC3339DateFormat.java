@@ -1,4 +1,4 @@
-package org.openapitools;
+package airbnski.resort;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.fasterxml.jackson.databind.util.ISO8601Utils;
