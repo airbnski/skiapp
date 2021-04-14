@@ -12,39 +12,55 @@ import org.springframework.web.client.RestTemplate;
 import java.time.Duration;
 
 @SpringBootApplication
-public class ConsumerService {
+public class ClientService<T> {
 
-    private static final Logger log = LoggerFactory.getLogger(ConsumerService.class);
+    private static final Logger log = LoggerFactory.getLogger(ClientService.class);
 
-    private final String listUrl = "";
-    private final String baseUrl = "";
+    private String listUrl;
+    private String baseUrl;
+
+    public String getListUrl() {
+        return listUrl;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public Class<AbstractEntity> returnClass() {
+        return AbstractEntity.class;
+    }
+
+    public Class<AbstractEntity[]> returnAllClass() {
+        return AbstractEntity[].class;
+    }
 
     public static void main(String[] args) {
-        SpringApplication.run(ConsumerService.class, args);
+        SpringApplication.run(ClientService.class, args);
     }
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder
-                .setConnectTimeout(Duration.ofMillis(3000))
-                .setReadTimeout(Duration.ofMillis(3000))
+                .setConnectTimeout(Duration.ofMillis(250000))
+                .setReadTimeout(Duration.ofMillis(250000))
                 .build();
     }
 
-    public String generateUrl(Long id) {
-        return this.baseUrl+id+".json";
+    public String generateUrl(Integer id) {
+        return this.getBaseUrl()+id+".json";
     }
 
-    public AbstractEntity getResource(Long id) {
+    public AbstractEntity getResource(Integer id) {
         RestTemplate restTemplate = restTemplate(new RestTemplateBuilder());
-        AbstractEntity response = restTemplate.getForObject(this.generateUrl(id), AbstractEntity.class);
+        AbstractEntity response = restTemplate.getForObject(this.generateUrl(id), returnClass());
         log.info(response.toString());
         return response;
     }
 
     public AbstractEntity[] getAllResources() {
         RestTemplate restTemplate = restTemplate(new RestTemplateBuilder());
-        AbstractEntity[] response = restTemplate.getForObject(this.listUrl, AbstractEntity[].class);
+        AbstractEntity[] response = restTemplate.getForObject(this.getListUrl(), returnAllClass());
         log.info(response.toString());
         return response;
     }

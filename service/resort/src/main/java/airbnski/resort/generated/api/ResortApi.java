@@ -7,6 +7,7 @@ package airbnski.resort.generated.api;
 
 import airbnski.resort.generated.model.InlineResponse404;
 import airbnski.resort.generated.model.Resort;
+import airbnski.resort.service.ResortService;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,17 +38,8 @@ public interface ResortApi {
     @RequestMapping(value = "/resort",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<List<Resort>> getAllResorts() {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"website\" : \"website\",  \"name\" : \"name\",  \"weather\" : {    \"temperature\" : 2,    \"outlook\" : \"outlook\"  },  \"id\" : 0,  \"slope\" : {    \"easyDistance\" : 6,    \"mediumDistance\" : 1,    \"hardDistance\" : 5  }}");
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
+    public default ResponseEntity<Resort[]> getAllResorts() {
+        return ResponseEntity.ok(ResortService.getAllResorts());
     }
 
 
@@ -80,16 +72,7 @@ public interface ResortApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     default ResponseEntity<Resort> getResortById(@ApiParam(value = "Numeric ID of the resort to get",required=true) @PathVariable("id") Integer id) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"website\" : \"website\",  \"name\" : \"name\",  \"weather\" : {    \"temperature\" : 2,    \"outlook\" : \"outlook\"  },  \"id\" : 0,  \"slope\" : {    \"easyDistance\" : 6,    \"mediumDistance\" : 1,    \"hardDistance\" : 5  }}");
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
+        return ResponseEntity.ok(ResortService.getResort(id));
     }
 
 }

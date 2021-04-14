@@ -7,9 +7,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Resort extends AbstractEntity {
+public class ClientResort extends AbstractEntity {
 
-    public Resort() {
+    public ClientResort() {
     }
 
     private String name;

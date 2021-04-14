@@ -89,7 +89,6 @@ paths:
                 properties:
                   message:
                     type: string
-
 components:
   schemas:
     Resort:
@@ -100,6 +99,14 @@ components:
         name:
           type: string
         website:
+          type: string
+        status:
+          type: string
+        longitude:
+          type: number
+        latitude:
+          type: number
+        image:
           type: string
         slope:
           $ref: '#/components/schemas/Slope'
