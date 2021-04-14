@@ -3,7 +3,6 @@ package airbnski.resort.generated.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -22,13 +21,10 @@ public class Resort   {
   private String website;
 
   @JsonProperty("slope")
-  private Object slope = null;
-
-  @JsonProperty("tempretature")
-  private BigDecimal tempretature;
+  private Slope slope = null;
 
   @JsonProperty("weather")
-  private Object weather = null;
+  private Weather weather = null;
 
   public Resort id(Integer id) {
     this.id = id;
@@ -40,7 +36,6 @@ public class Resort   {
    * @return id
   */
   @ApiModelProperty(value = "")
-
 
   public Integer getId() {
     return id;
@@ -81,7 +76,6 @@ public class Resort   {
   */
   @ApiModelProperty(value = "")
 
-
   public String getWebsite() {
     return website;
   }
@@ -90,7 +84,7 @@ public class Resort   {
     this.website = website;
   }
 
-  public Resort slope(Object slope) {
+  public Resort slope(Slope slope) {
     this.slope = slope;
     return this;
   }
@@ -101,35 +95,15 @@ public class Resort   {
   */
   @ApiModelProperty(value = "")
 
-
-  public Object getSlope() {
+  public Slope getSlope() {
     return slope;
   }
 
-  public void setSlope(Object slope) {
+  public void setSlope(Slope slope) {
     this.slope = slope;
   }
 
-  public Resort tempretature(BigDecimal tempretature) {
-    this.tempretature = tempretature;
-    return this;
-  }
-
-  /**
-   * Get tempretature
-   * @return tempretature
-  */
-  @ApiModelProperty(value = "")
-
-  public BigDecimal getTempretature() {
-    return tempretature;
-  }
-
-  public void setTempretature(BigDecimal tempretature) {
-    this.tempretature = tempretature;
-  }
-
-  public Resort weather(Object weather) {
+  public Resort weather(Weather weather) {
     this.weather = weather;
     return this;
   }
@@ -140,12 +114,11 @@ public class Resort   {
   */
   @ApiModelProperty(value = "")
 
-
-  public Object getWeather() {
+  public Weather getWeather() {
     return weather;
   }
 
-  public void setWeather(Object weather) {
+  public void setWeather(Weather weather) {
     this.weather = weather;
   }
 
@@ -163,13 +136,12 @@ public class Resort   {
         Objects.equals(this.name, resort.name) &&
         Objects.equals(this.website, resort.website) &&
         Objects.equals(this.slope, resort.slope) &&
-        Objects.equals(this.tempretature, resort.tempretature) &&
         Objects.equals(this.weather, resort.weather);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, website, slope, tempretature, weather);
+    return Objects.hash(id, name, website, slope, weather);
   }
 
   @Override
@@ -181,7 +153,6 @@ public class Resort   {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    website: ").append(toIndentedString(website)).append("\n");
     sb.append("    slope: ").append(toIndentedString(slope)).append("\n");
-    sb.append("    tempretature: ").append(toIndentedString(tempretature)).append("\n");
     sb.append("    weather: ").append(toIndentedString(weather)).append("\n");
     sb.append("}");
     return sb.toString();

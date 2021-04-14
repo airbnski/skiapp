@@ -20,7 +20,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-04-13T17:50:21.484022+02:00[Europe/Zurich]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-04-14T14:41:49.663320+02:00[Europe/Zurich]")
 
 @Validated
 @Api(value = "resort", description = "the resort API")
@@ -41,7 +41,7 @@ public interface ResortApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"website\" : \"website\",  \"tempretature\" : 6.02745618307040320615897144307382404804229736328125,  \"name\" : \"name\",  \"weather\" : \"{}\",  \"id\" : 0,  \"slope\" : \"{}\"}");
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"website\" : \"website\",  \"name\" : \"name\",  \"weather\" : {    \"temperature\" : 2,    \"outlook\" : \"outlook\"  },  \"id\" : 0,  \"slope\" : {    \"easyDistance\" : 6,    \"mediumDistance\" : 1,    \"hardDistance\" : 5  }}");
                     break;
                 }
             }
@@ -55,14 +55,14 @@ public interface ResortApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Resort.class, responseContainer = "List"),
         @ApiResponse(code = 404, message = "Resort data not found", response = InlineResponse404.class) })
-    @RequestMapping(value = "/resort/",
+    @RequestMapping(value = "/resort/{long}/{lat}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     default ResponseEntity<List<Resort>> getResortByCoordinates(@ApiParam(value = "Longitude of the resort to get",required=true) @PathVariable("long") BigDecimal _long,@ApiParam(value = "Latitude of the resort to get",required=true) @PathVariable("lat") BigDecimal lat) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"website\" : \"website\",  \"tempretature\" : 6.02745618307040320615897144307382404804229736328125,  \"name\" : \"name\",  \"weather\" : \"{}\",  \"id\" : 0,  \"slope\" : \"{}\"}");
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"website\" : \"website\",  \"name\" : \"name\",    \"weather\" : {    \"temperature\" : 2,    \"outlook\" : \"outlook\"  },  \"id\" : 0,  \"slope\" : {    \"easyDistance\" : 6,    \"mediumDistance\" : 1,    \"hardDistance\" : 5  }}");
                     break;
                 }
             }
@@ -83,7 +83,7 @@ public interface ResortApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"website\" : \"website\",  \"tempretature\" : 6.02745618307040320615897144307382404804229736328125,  \"name\" : \"name\",  \"weather\" : \"{}\",  \"id\" : 0,  \"slope\" : \"{}\"}");
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"website\" : \"website\",  \"name\" : \"name\",  \"weather\" : {    \"temperature\" : 2,    \"outlook\" : \"outlook\"  },  \"id\" : 0,  \"slope\" : {    \"easyDistance\" : 6,    \"mediumDistance\" : 1,    \"hardDistance\" : 5  }}");
                     break;
                 }
             }

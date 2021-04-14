@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.openapitools", "airbnski.resort.generated.api" , "airbnski.resort.generated.configuration"})
+@ComponentScan(basePackages = {"airbnski.resort", "airbnski.resort.generated.api" , "airbnski.resort.generated.configuration"})
 public class ResortApplication implements CommandLineRunner {
 
     @Override

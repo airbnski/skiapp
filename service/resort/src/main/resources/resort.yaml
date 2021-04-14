@@ -54,7 +54,7 @@ paths:
                 properties:
                   message:
                     type: string
-  /resort/:
+  /resort/{long}/{lat}:
     get:
       operationId: getResortByCoordinates
       description: Retrieve resort information by geolocation
@@ -102,8 +102,22 @@ components:
         website:
           type: string
         slope:
-          type: object
-        tempretature:
-          type: number
+          $ref: '#/components/schemas/Slope'
         weather:
-          type: object
+          $ref: '#/components/schemas/Weather'
+    Weather:
+      type: object
+      properties:
+        temperature:
+          type: integer
+        outlook:
+          type: string
+    Slope:
+      type: object
+      properties:
+        easyDistance:
+          type: integer
+        mediumDistance:
+          type: integer
+        hardDistance:
+          type: integer
