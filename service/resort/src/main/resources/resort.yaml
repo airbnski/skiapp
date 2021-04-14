@@ -1,0 +1,130 @@
+openapi: "3.0.2"
+info:
+  title: API Title
+  version: "1.0"
+servers:
+  - url: http://34.65.74.226:8082
+paths:
+  /resort:
+    get:
+      operationId: getAllResorts
+      summary: Retrieve all resorts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Resort'
+        '404':
+          description: Resort data not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /resort/{id}:
+    get:
+      operationId: getResortById
+      description: Retrieve resort information by id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the resort to get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resort'
+        '404':
+          description: Resort data not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /resort/{long}/{lat}:
+    get:
+      operationId: getResortByCoordinates
+      description: Retrieve resort information by geolocation
+      parameters:
+        - in: path
+          name: long
+          schema:
+            type: number
+          required: true
+          description: Longitude of the resort to get
+        - in: path
+          name: lat
+          schema:
+            type: number
+          required: true
+          description: Latitude of the resort to get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Resort'
+        '404':
+          description: Resort data not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+  schemas:
+    Resort:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        website:
+          type: string
+        status:
+          type: string
+        longitude:
+          type: number
+        latitude:
+          type: number
+        image:
+          type: string
+        slope:
+          $ref: '#/components/schemas/Slope'
+        weather:
+          $ref: '#/components/schemas/Weather'
+    Weather:
+      type: object
+      properties:
+        temperature:
+          type: integer
+        outlook:
+          type: string
+    Slope:
+      type: object
+      properties:
+        easyDistance:
+          type: integer
+        mediumDistance:
+          type: integer
+        hardDistance:
+          type: integer

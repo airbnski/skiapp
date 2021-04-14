@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.4.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'org.hidetake.swagger.generator' version '2.18.2'
 }
 
 group = 'airbnski'
@@ -16,15 +17,49 @@ configurations {
 
 repositories {
 	mavenCentral()
+	jcenter()
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation project(':common')
+	implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.5.22'
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	swaggerUI 'org.webjars:swagger-ui:3.10.0'
+	swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'     // or OpenAPI Generator
 }
 
 test {
 	useJUnitPlatform()
 }
+
+/*swaggerSources {
+	resort {
+		inputFile = file('src/main/resources/resort.yaml')
+		code {
+			language = 'spring'
+			outputDir = file("$rootDir")
+			configFile = file('src/main/resources/config.json')
+			wipeOutputDir = false
+		}
+	}
+}
+
+swaggerSources {
+	resort {
+		inputFile = file('src/main/resources/resort.yaml')
+		code {
+			language = 'html2'
+			outputDir = file("$buildDir/swagger-html")
+		}
+	}
+}*/
+
+/*compileJava.dependsOn swaggerSources.resort.code
+sourceSets.main.java.srcDir "${swaggerSources.resort.code.outputDir}/src/main/java"
+sourceSets.main.resources.srcDir "${swaggerSources.resort.code.outputDir}/src/main/resources"
+*/
