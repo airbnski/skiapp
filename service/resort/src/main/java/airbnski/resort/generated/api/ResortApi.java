@@ -54,7 +54,6 @@ public interface ResortApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"website\" : \"website\",  \"name\" : \"name\",    \"weather\" : {    \"temperature\" : 2,    \"outlook\" : \"outlook\"  },  \"id\" : 0,  \"slope\" : {    \"easyDistance\" : 6,    \"mediumDistance\" : 1,    \"hardDistance\" : 5  }}");
                     break;
                 }
             }
