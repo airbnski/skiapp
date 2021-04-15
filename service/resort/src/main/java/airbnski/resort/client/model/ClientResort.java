@@ -1,6 +1,7 @@
 package airbnski.resort.client.model;
 
 import airbnski.common.client.model.AbstractEntity;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -23,9 +24,11 @@ public class ClientResort extends AbstractEntity {
     @JsonProperty("operating_status")
     private String status;
 
+    @JsonAlias("geo_lat")
     private BigDecimal latitude;
-    private BigDecimal longitude;
 
+    @JsonAlias("geo_lng")
+    private BigDecimal longitude;
 
     private Tag[] tags;
 

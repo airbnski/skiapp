@@ -41,10 +41,10 @@ public class ResortService {
         resort.setId(clientResort.getId());
         resort.setName(clientResort.getName());
         resort.setWebsite(clientResort.getWebsite());
-        /*resort.setStatus(clientResort.getStatus());
+        resort.setStatus(clientResort.getStatus());
         resort.setLongitude(clientResort.getLongitude());
         resort.setLatitude(clientResort.getLatitude());
-        resort.setImage(clientResort.getLatitude());*/
+        //resort.setImage(clientResort.getImage());
         resort.setSlope(null);
         resort.setWeather(null);
         return resort;
