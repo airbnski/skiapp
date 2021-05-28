@@ -3,6 +3,7 @@ package airbnski.resort.service;
 import airbnski.resort.client.model.ClientResort;
 import airbnski.resort.generated.model.Resort;
 
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class ResortServiceUtils {
@@ -45,7 +46,8 @@ public class ResortServiceUtils {
         resort.setStatus(clientResort.getStatus());
         resort.setLongitude(clientResort.getLongitude());
         resort.setLatitude(clientResort.getLatitude());
-        resort.setImage(null);
+        if (Arrays.stream(clientResort.getSlope()).count()>0)
+            resort.setImage(clientResort.getSlope()[0].getMedia().getOriginal().getUrl());
         resort.setSlope(null);
         resort.setWeather(null);
         return resort;
