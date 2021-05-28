@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.math.BigDecimal;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ClientResort extends AbstractEntity {
 
@@ -25,10 +23,10 @@ public class ClientResort extends AbstractEntity {
     private String status;
 
     @JsonAlias("geo_lat")
-    private BigDecimal latitude;
+    private Double latitude;
 
     @JsonAlias("geo_lng")
-    private BigDecimal longitude;
+    private Double longitude;
 
     private Tag[] tags;
 
@@ -67,19 +65,19 @@ public class ClientResort extends AbstractEntity {
         this.status = status;
     }
 
-    public BigDecimal getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(BigDecimal latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public BigDecimal getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(BigDecimal longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 

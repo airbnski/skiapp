@@ -3,7 +3,6 @@ package airbnski.resort.generated.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -25,10 +24,10 @@ public class Resort   {
   private String status;
 
   @JsonProperty("longitude")
-  private BigDecimal longitude;
+  private Double longitude;
 
   @JsonProperty("latitude")
-  private BigDecimal latitude;
+  private Double latitude;
 
   @JsonProperty("image")
   private String image;
@@ -117,7 +116,7 @@ public class Resort   {
     this.status = status;
   }
 
-  public Resort longitude(BigDecimal longitude) {
+  public Resort longitude(Double longitude) {
     this.longitude = longitude;
     return this;
   }
@@ -128,15 +127,15 @@ public class Resort   {
   */
   @ApiModelProperty(value = "")
 
-  public BigDecimal getLongitude() {
+  public Double getLongitude() {
     return longitude;
   }
 
-  public void setLongitude(BigDecimal longitude) {
+  public void setLongitude(Double longitude) {
     this.longitude = longitude;
   }
 
-  public Resort latitude(BigDecimal latitude) {
+  public Resort latitude(Double latitude) {
     this.latitude = latitude;
     return this;
   }
@@ -147,11 +146,11 @@ public class Resort   {
   */
   @ApiModelProperty(value = "")
 
-  public BigDecimal getLatitude() {
+  public Double getLatitude() {
     return latitude;
   }
 
-  public void setLatitude(BigDecimal latitude) {
+  public void setLatitude(Double latitude) {
     this.latitude = latitude;
   }
 
@@ -267,5 +266,25 @@ public class Resort   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public boolean isWithinCoordinates(Double long1, Double lat1, Double distance) {
+      if (distance == null ) distance = 50d;
+      Double theta = long1 - longitude;
+      Double dist = Math.sin(deg2rad(long1)) * Math.sin(deg2rad(longitude)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(latitude)) * Math.cos(deg2rad(theta));
+      dist = Math.acos(dist);
+      dist = rad2deg(dist);
+      dist = dist * 60 * 1.1515;
+
+      return true ? (dist<=distance) : false;
+  }
+
+  private double deg2rad(double deg) {
+    return (deg * Math.PI / 180.0);
+  }
+
+  private double rad2deg(double rad) {
+    return (rad * 180.0 / Math.PI);
+  }
+
 }
 

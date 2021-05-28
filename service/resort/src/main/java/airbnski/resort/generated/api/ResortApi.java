@@ -9,8 +9,6 @@ import airbnski.resort.generated.model.InlineResponse404;
 import airbnski.resort.generated.model.Resort;
 import airbnski.resort.service.ResortService;
 import io.swagger.annotations.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.NativeWebRequest;
 
-import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-04-14T14:41:49.663320+02:00[Europe/Zurich]")
 
 @Validated
@@ -38,7 +36,7 @@ public interface ResortApi {
     @RequestMapping(value = "/resort",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    public default ResponseEntity<Resort[]> getAllResorts() {
+    default ResponseEntity<Resort[]> getAllResorts() throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(ResortService.getAllResorts());
     }
 
@@ -47,19 +45,11 @@ public interface ResortApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Resort.class, responseContainer = "List"),
         @ApiResponse(code = 404, message = "Resort data not found", response = InlineResponse404.class) })
-    @RequestMapping(value = "/resort/{long}/{lat}",
+    @RequestMapping(value = "/resort/{longitude}/{latitude}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<List<Resort>> getResortByCoordinates(@ApiParam(value = "Longitude of the resort to get",required=true) @PathVariable("long") BigDecimal _long,@ApiParam(value = "Latitude of the resort to get",required=true) @PathVariable("lat") BigDecimal lat) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
+    default ResponseEntity<Resort[]> getResortByCoordinates(@ApiParam(value = "Longitude of the resort to get",required=true) @PathVariable("longitude") Double longitude,@ApiParam(value = "Latitude of the resort to get",required=true) @PathVariable("latitude") Double latitude) {
+        return ResponseEntity.ok(ResortService.getResortByCoordinates(longitude, latitude));
     }
 
 
@@ -70,7 +60,7 @@ public interface ResortApi {
     @RequestMapping(value = "/resort/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<Resort> getResortById(@ApiParam(value = "Numeric ID of the resort to get",required=true) @PathVariable("id") Integer id) {
+    default ResponseEntity<Resort> getResortById(@ApiParam(value = "Numeric ID of the resort to get",required=true) @PathVariable("id") Integer id) throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(ResortService.getResort(id));
     }
 
