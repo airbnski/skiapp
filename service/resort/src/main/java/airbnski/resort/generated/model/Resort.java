@@ -269,8 +269,12 @@ public class Resort   {
 
   public boolean isWithinCoordinates(Double long1, Double lat1, Double distance) {
       if (distance == null ) distance = 50d;
+      int a;
+      if (long1==longitude)
+         a = 1;
+
       Double theta = long1 - longitude;
-      Double dist = Math.sin(deg2rad(long1)) * Math.sin(deg2rad(longitude)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(latitude)) * Math.cos(deg2rad(theta));
+      Double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(latitude)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(latitude)) * Math.cos(deg2rad(theta));
       dist = Math.acos(dist);
       dist = rad2deg(dist);
       dist = dist * 60 * 1.1515;
