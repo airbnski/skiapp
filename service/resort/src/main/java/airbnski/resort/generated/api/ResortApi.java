@@ -45,11 +45,11 @@ public interface ResortApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Resort.class, responseContainer = "List"),
         @ApiResponse(code = 404, message = "Resort data not found", response = InlineResponse404.class) })
-    @RequestMapping(value = "/resort/{longitude}/{latitude}",
+    @RequestMapping(value = "/resort/{longitude}/{latitude}/{distance}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<Resort[]> getResortByCoordinates(@ApiParam(value = "Longitude of the resort to get",required=true) @PathVariable("longitude") Double longitude,@ApiParam(value = "Latitude of the resort to get",required=true) @PathVariable("latitude") Double latitude) {
-        return ResponseEntity.ok(ResortService.getResortByCoordinates(longitude, latitude));
+    default ResponseEntity<Resort[]> getResortByCoordinates(@ApiParam(value = "Longitude of the resort to get",required=true) @PathVariable("longitude") Double longitude,@ApiParam(value = "Latitude of the resort to get",required=true) @PathVariable("latitude") Double latitude,@ApiParam(value = "Distance of the resort to get",required=true) @PathVariable("distance") Double distance) {
+        return ResponseEntity.ok(ResortService.getResortByCoordinates(longitude, latitude, distance));
     }
 
 

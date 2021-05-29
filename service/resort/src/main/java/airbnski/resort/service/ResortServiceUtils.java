@@ -46,6 +46,7 @@ public class ResortServiceUtils {
         resort.setStatus(clientResort.getStatus());
         resort.setLongitude(clientResort.getLongitude());
         resort.setLatitude(clientResort.getLatitude());
+        resort.distanceFromCenter(8.541888260467331,47.37892103064415);
         if (Arrays.stream(clientResort.getSlope()).count()>0)
             resort.setImage(clientResort.getSlope()[0].getMedia().getOriginal().getUrl());
         resort.setSlope(null);
