@@ -54,23 +54,29 @@ paths:
                 properties:
                   message:
                     type: string
-  /resort/{long}/{lat}:
+  /resort/{longitude}/{latitude}/{distance}:
     get:
       operationId: getResortByCoordinates
       description: Retrieve resort information by geolocation
       parameters:
         - in: path
-          name: long
+          name: longitude
           schema:
             type: number
           required: true
           description: Longitude of the resort to get
         - in: path
-          name: lat
+          name: latitude
           schema:
             type: number
           required: true
           description: Latitude of the resort to get
+        - in: path
+          name: distance
+          schema:
+            type: number
+          required: true
+          description: Distance of the resort to get
       responses:
         '200':
           description: OK
@@ -105,6 +111,8 @@ components:
         longitude:
           type: number
         latitude:
+          type: number
+        distance:
           type: number
         image:
           type: string
