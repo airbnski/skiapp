@@ -3,24 +3,18 @@ version: '3.7'
 
 # Define services
 services:
-  # Microservice
   weather:
-    # Configuration for building the docker image for the backend service
     image: "airbnski/weather"
     ports:
       - "8081:8081"
     restart: always
-
   resort:
-    # Configuration for building the docker image for the backend service
     image: "airbnski/resort"
     ports:
       - "8082:8082"
     restart: always
     depends_on:
         - weather
-
-  # Frontend Service 
   ui:
     image: "airbnski/ui"
     ports:
