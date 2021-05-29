@@ -1,3 +1,6 @@
 rootProject.name = 'airbnski-service'
-include 'resort'
+include 'common'
 include 'weather'
+include 'resort'
+
+
