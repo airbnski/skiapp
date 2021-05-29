@@ -14,9 +14,9 @@ public class ClientWeatherService extends ClientService {
     private final String baseUrl = "";
     private String id;
 
-    public static void main(String[] args) {
-        SpringApplication.run(ClientWeatherService.class, args);
-    }
+    //public static void main(String[] args) {
+        //SpringApplication.run(ClientWeatherService.class, args);
+    //}
 }
 
 

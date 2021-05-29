@@ -64,4 +64,6 @@ public interface ResortApi {
         return ResponseEntity.ok(ResortService.getResort(id));
     }
 
+
+
 }

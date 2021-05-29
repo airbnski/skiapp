@@ -44,6 +44,15 @@ public class ResortService {
 
         if(results[0]!=null) return results;
 
+
+
+        //Test SwissSkiService API
+        /*
+            SwissSkiService api = new SwissSkiService();
+            System.out.println(api.getResortById(1009));
+
+         */
+
         CompletableFuture[] futures = IntStream.range(0,size)
                 .mapToObj(i->CompletableFuture.supplyAsync(()-> {
                     CompletableFuture<ClientResort> result = null;
