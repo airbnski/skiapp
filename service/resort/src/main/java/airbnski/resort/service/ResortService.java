@@ -28,7 +28,8 @@ public class ResortService {
     private static ClientResortService clientResortService = new ClientResortService();
 
     public static Resort getResort(Integer id) throws ExecutionException, InterruptedException {
-        CompletableFuture<ClientResort> clientResort = clientResortService.getResource(id);
+        clientResortService.setId(id);
+        CompletableFuture<ClientResort> clientResort = clientResortService.getResource();
         return util.convertClient((ClientResort) clientResort.get());
     }
 
@@ -56,7 +57,8 @@ public class ResortService {
         CompletableFuture[] futures = IntStream.range(0,size)
                 .mapToObj(i->CompletableFuture.supplyAsync(()-> {
                     CompletableFuture<ClientResort> result = null;
-                    result = clientResortService.getResource(chId[i]);
+                    clientResortService.setId(chId[i]);
+                    result = clientResortService.getResource();
                     return result;
                 },executor))
                 .toArray(CompletableFuture[]::new);

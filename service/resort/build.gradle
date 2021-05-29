@@ -23,6 +23,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation project(':common')
+	implementation project(':weather')
 	implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.5.22'
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'

@@ -14,24 +14,50 @@ public class ClientService<T> {
 
     private static final Logger log = LoggerFactory.getLogger(ClientService.class);
 
+    private Integer id;
+    private Double longitude;
+    private Double latitude;
+    private String apiKey;
     private String baseUrl;
-
-    public String getBaseUrl() {
-        return baseUrl;
-    }
 
     public Class<AbstractEntity> returnClass() {
         return AbstractEntity.class;
     }
 
-    public String generateUrl(Integer id) {
-        return this.getBaseUrl()+id+".json";
+    public String getApiKey() {
+        return apiKey;
+    }
+    public Double getLongitude() {
+        return longitude;
+    }
+    public Double getLatitude() {
+        return latitude;
+    }
+    public Integer getId() {
+        return id;
+    }
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String generateUrl() {
+        if (getId() == null) return getBaseUrl()+"lat="+ getLatitude() +"&lon="+getLongitude()+"&appid="+getApiKey();
+        return getBaseUrl()+getId()+".json";
     }
 
     @Async
-    public CompletableFuture<T> getResource(Integer id) {
+    public CompletableFuture<T> getResource() {
         RestTemplate restTemplate = new RestTemplate();
-        String s = generateUrl(id);
+        String s = generateUrl();
         T response = (T) restTemplate.getForObject(s, returnClass());
         return CompletableFuture.completedFuture(response);
     }

@@ -2,11 +2,20 @@ package airbnski.resort.service;
 
 import airbnski.resort.client.model.ClientResort;
 import airbnski.resort.generated.model.Resort;
+import airbnski.resort.generated.model.Weather;
+import airbnski.weather.client.model.GeolocationWeather;
+import airbnski.weather.client.api.ClientWeatherService;
 
 import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.IntStream;
 
 public class ResortServiceUtils {
+
+    private static ClientWeatherService clientWeatherService = new ClientWeatherService();
+    private static SwissSkiService api = new SwissSkiService();
+
     private final static int[] regionsCHId = {515, 387, 385, 384, 383, 382};
     private final static int[] berneseCHId = {1002, 12874, 1003, 3719, 5448, 5449, 3785, 3788, 1000,
             4187, 1001, 3786, 3787};
@@ -38,7 +47,7 @@ public class ResortServiceUtils {
         return size;
     }
 
-    protected static Resort convertClient(ClientResort clientResort) {
+    protected static Resort convertClient(ClientResort clientResort) throws ExecutionException, InterruptedException {
         Resort resort = new Resort();
         resort.setId(clientResort.getId());
         resort.setName(clientResort.getName());
@@ -49,8 +58,16 @@ public class ResortServiceUtils {
         resort.distanceFromCenter(8.541888260467331,47.37892103064415);
         if (Arrays.stream(clientResort.getSlope()).count()>0)
             resort.setImage(clientResort.getSlope()[0].getMedia().getOriginal().getUrl());
-        resort.setSlope(null);
-        resort.setWeather(null);
+        clientWeatherService.setLongitude(clientResort.getLongitude());
+        clientWeatherService.setLatitude(clientResort.getLatitude());
+        CompletableFuture<GeolocationWeather> futureWeather = clientWeatherService.getResource();
+        GeolocationWeather clientWeather  = (GeolocationWeather) futureWeather.get();
+        Weather weather = new Weather();
+        weather.setOutlook(clientWeather.getWeather()[0].getMain());
+        weather.setTemperature(clientWeather.getTemperature().getTemp());
+        resort.setWeather(weather);
+        Resort r = api.getResortById(clientResort.getId());
+        if (r!=null && r.getSlope()!=null)resort.setSlope(r.getSlope());
         return resort;
     }
 }

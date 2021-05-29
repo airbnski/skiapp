@@ -12,12 +12,12 @@ import java.util.Objects;
 
 public class Weather   {
   @JsonProperty("temperature")
-  private Integer temperature;
+  private Double temperature;
 
   @JsonProperty("outlook")
   private String outlook;
 
-  public Weather temperature(Integer temperature) {
+  public Weather temperature(Double temperature) {
     this.temperature = temperature;
     return this;
   }
@@ -29,11 +29,11 @@ public class Weather   {
   @ApiModelProperty(value = "")
 
 
-  public Integer getTemperature() {
+  public Double getTemperature() {
     return temperature;
   }
 
-  public void setTemperature(Integer temperature) {
+  public void setTemperature(Double temperature) {
     this.temperature = temperature;
   }
 
