@@ -60,10 +60,11 @@ function ResortList(props) {
     const slopeLineWidth = 250;
 
     const getWeatherIcon = (weather) => {
+        console.log(weather)
         switch (weather) {
             case 'Sun':
                 return Sun;
-            case 'Cloud':
+            case 'Clouds':
                 return Cloud;
             case 'Rain':
                 return Rain;
@@ -81,7 +82,11 @@ function ResortList(props) {
         const easy = (resort.slopes.easy / sum) * slopeLineWidth;
         const medium = (resort.slopes.medium / sum) * slopeLineWidth;
         const hard = (resort.slopes.hard / sum) * slopeLineWidth;
-        return {easy: easy, medium: medium, hard: hard};
+        return {easy: easy, medium: medium, hard: hard, total: sum};
+    }
+
+    const convertTemp = (temperature) => {
+        return (temperature - 273.15).toFixed(0)
     }
 
     return (
@@ -93,14 +98,14 @@ function ResortList(props) {
                             <ListItemText>
                                 <Typography className={classes.resortCardTitle}>
                                     <div className={classes.resortCardMiniText}>
-                                        120km
+                                        {resort.distance.toFixed(0)}km
                                     </div>
                                     {resort.name}
                                 </Typography>
-                                <img src={getWeatherIcon(resort.weather)} height='50' width='50'
+                                <img src={getWeatherIcon(resort.weather.outlook)} height='50' width='50'
                                      className={classes.weatherIcon}/>
-                                <Typography className={classes.resortCardBottomMiniText}>-3ºC</Typography>
-                                <Typography className={classes.resortCardMiniText}>52 km downhill runs</Typography>
+                                <Typography className={classes.resortCardBottomMiniText}>{convertTemp(resort.weather.temperature)}ºC</Typography>
+                                <Typography className={classes.resortCardMiniText}>{getSlopeLengths(resort).total} km downhill runs</Typography>
                                 <div style={{display: 'flex'}}>
                                     <div className={classes.slopeLine}
                                          style={{borderTopColor: '#0070AF', width: getSlopeLengths(resort).easy}}/>

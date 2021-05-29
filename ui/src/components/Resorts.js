@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import InteractiveMap from "./InteractiveMap";
 import ResortList from "./ResortList";
-import {Grid, InputAdornment, TextField} from "@material-ui/core";
+import {Grid, InputAdornment, MenuItem, Select, TextField} from "@material-ui/core";
 import {useEffect, useState} from "react";
 import Sun from "../images/001-sun.svg";
 import Cloud from "../images/002-cloud.svg";
@@ -20,13 +20,14 @@ function Resorts() {
     const [searchLocation, setSearchLocation] = useState('Zurich')
     const [searchLatitude, setSearchLatitude] = useState(0)
     const [searchLongitude, setSearchLongitude] = useState(0)
+    const [searchDistance, setSearchDistance] = useState(30)
 
 
     useEffect(() => {
         searchForResorts()
     }, [])
 
-    const searchForResorts = (loc = searchLocation) => {
+    const searchForResorts = (loc = searchLocation, dist = searchDistance) => {
         setResortList([])
         getSearchCoordinates(loc)
             .then(potentialLocation => {
@@ -34,31 +35,42 @@ function Resorts() {
                 if (potentialLocation) {
                     setSearchLatitude(potentialLocation.latitude)
                     setSearchLongitude(potentialLocation.longitude)
-                    getResortsByLocation(potentialLocation.longitude, potentialLocation.latitude)
+                    getResortsByLocation(potentialLocation.longitude, potentialLocation.latitude, dist)
                 }
             })
     }
 
-    const getResortsByLocation = (longitude , latitude ) => {
-        axios.get(resortServiceUrl + '/resort/' + longitude + '/' + latitude + '/' + 25.0)
+    const getResortsByLocation = (longitude, latitude, radius) => {
+        axios.get(resortServiceUrl + '/resort/' + longitude + '/' + latitude + '/' + radius)
             .then(res => {
                 console.log('GET RESORTS BY LOCATION: ', res.data)
-                res.data.map((resort, index) => (
-                    updateResortList(resort, index)));
+                updateResortList(res.data);
             })
     }
 
-    const updateResortList = (resort, index) => {
-        if (!resortList.includes(resort.id)) {
-        setResortList((prevState) => [...prevState, {
-            id: resort.id,
-            name: resort.name,
-            website: resort.website,
-            skiMapUrl: resort.image,
-            weather: weather[index % weather.length],
-            slopes: {easy: 150, medium: 90, hard: 30},
-            location: {latitude: resort.latitude, longitude: resort.longitude}
-        }]) }
+    const updateResortList = (resorts) => {
+        const newList = resorts.map((resort, index) => {
+            return {
+                id: resort.id,
+                name: resort.name,
+                website: resort.website,
+                distance: resort.distance,
+                skiMapUrl: resort.image,
+                weather: {outlook: resort.weather.outlook, temperature: resort.weather.temperature},
+                slopes: {easy: resort.slope? resort.slope.easyDistance: 0, medium: resort.slope? resort.slope.mediumDistance: 0, hard: resort.slope? resort.slope.hardDistance: 0},
+                location: {latitude: resort.latitude, longitude: resort.longitude},
+                status: resort.status
+            }
+        })
+        const uniqueResorts = []
+        const resortIDsSeen = []
+        newList.forEach((r) => {
+            if (!resortIDsSeen.includes(r.id)) {
+                uniqueResorts.push(r)
+            }
+            resortIDsSeen.push(r.id)
+        })
+        setResortList(uniqueResorts)
     }
 
     /* Potential Functions for the future...
@@ -124,22 +136,42 @@ function Resorts() {
         }
     }
 
+    const handleDistanceChange = (e) => {
+        setSearchDistance(e.target.value)
+        searchForResorts(searchLocation, e.target.value)
+    }
+
     return (
         <Grid container spacing={2} style={{margin: 0}}>
             <Grid item xs={3} style={{height: 'calc(100vh - 70px)', overflowY: 'auto'}}>
-                <TextField id="location" type="text" label="Location" variant="outlined"
-                           InputProps={{
-                               startAdornment: (
-                                   <InputAdornment position="start">
-                                       <LocationOnOutlinedIcon/>
-                                   </InputAdornment>
-                               ),
-                           }}
-                           style={{width: '90%', margin: 10}}
-                           value={searchLocation}
-                           onChange={(e, s) => setSearchLocation(s)}
-                           onKeyDown={handleKeyPress}
-                />
+                <div style={{display: 'flex', flexDirection: 'row'}}>
+                    <TextField id="location" type="text" label="Location" variant="outlined"
+                               InputProps={{
+                                   startAdornment: (
+                                       <InputAdornment position="start">
+                                           <LocationOnOutlinedIcon/>
+                                       </InputAdornment>
+                                   ),
+                               }}
+                               style={{width: '90%', margin: 10}}
+                               value={searchLocation}
+                               onChange={(e, s) => setSearchLocation(s)}
+                               onKeyDown={handleKeyPress}
+                    />
+                    <Select
+                        labelId="search-distance"
+                        id="search-distance"
+                        value={searchDistance}
+                        onChange={handleDistanceChange}
+                        variant="outlined"
+                    >
+                        <MenuItem value={10}>10</MenuItem>
+                        <MenuItem value={20}>20</MenuItem>
+                        <MenuItem value={30}>30</MenuItem>
+                        <MenuItem value={40}>40</MenuItem>
+                        <MenuItem value={50}>50</MenuItem>
+                    </Select>
+                </div>
                 <ResortList resorts={resortList}/>
             </Grid>
             <Grid item xs={9} style={{height: 'calc(100vh - 70px)'}}>
