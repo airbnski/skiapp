@@ -82,7 +82,7 @@ public class ResortService {
 
     public static Resort[] getResortByCoordinates(Double longitude, Double latitude, Double distance) {
         if(results[0]==null) results = getAllResorts();
-        Resort[] filteredByCoordinates = Arrays.stream(results).filter(c -> c.isWithinCoordinates(longitude,latitude,distance)).toArray(Resort[]::new);
+        Resort[] filteredByCoordinates = Arrays.stream(results).filter(c -> c.isWithinCoordinates(longitude,latitude,distance)).distinct().toArray(Resort[]::new);
         Arrays.sort(filteredByCoordinates);
         return filteredByCoordinates;
     }
