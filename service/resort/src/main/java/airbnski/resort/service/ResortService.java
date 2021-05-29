@@ -50,8 +50,8 @@ public class ResortService {
         /*
             SwissSkiService api = new SwissSkiService();
             System.out.println(api.getResortById(1009));
+        */
 
-         */
 
         CompletableFuture[] futures = IntStream.range(0,size)
                 .mapToObj(i->CompletableFuture.supplyAsync(()-> {
