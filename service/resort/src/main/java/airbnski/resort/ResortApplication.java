@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
@@ -36,13 +37,13 @@ public class ResortApplication implements CommandLineRunner {
     @Bean
     public WebMvcConfigurer webConfigurer() {
         return new WebMvcConfigurer() {
-            /*@Override
+            @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("*")
                         .allowedMethods("*")
-                        .allowedHeaders("Content-Type");
-            }*/
+                        .allowedHeaders("Content-Type");    
+            }
         };
     }
 
