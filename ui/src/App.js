@@ -1,13 +1,22 @@
 import "./App.css";
-import AppBar from "./components/AppBar"
+import TopAppBar from "./components/TopAppBar";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Resorts from "./components/Resorts";
+import HomePage from "./components/HomePage";
 
 function App() {
     return (
-        <div>
-            <AppBar/>
-            <Resorts/>
-        </div>
+        <Router className="App">
+            <Switch>
+                <Route path="/map">
+                    <TopAppBar/>
+                    <Resorts/>
+                </Route>
+                <Route path="/">
+                    <HomePage/>
+                </Route>
+            </Switch>
+        </Router>
     );
 }
 
