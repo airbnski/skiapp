@@ -28,7 +28,8 @@ public class ResortService {
     private static ClientResortService clientResortService = new ClientResortService();
 
     public static Resort getResort(Integer id) throws ExecutionException, InterruptedException {
-        CompletableFuture<ClientResort> clientResort = clientResortService.getResource(id);
+        clientResortService.setId(id);
+        CompletableFuture<ClientResort> clientResort = clientResortService.getResource();
         return util.convertClient((ClientResort) clientResort.get());
     }
 
@@ -44,10 +45,20 @@ public class ResortService {
 
         if(results[0]!=null) return results;
 
+
+
+        //Test SwissSkiService API
+        /*
+            SwissSkiService api = new SwissSkiService();
+            System.out.println(api.getResortById(1009));
+        */
+
+
         CompletableFuture[] futures = IntStream.range(0,size)
                 .mapToObj(i->CompletableFuture.supplyAsync(()-> {
                     CompletableFuture<ClientResort> result = null;
-                    result = clientResortService.getResource(chId[i]);
+                    clientResortService.setId(chId[i]);
+                    result = clientResortService.getResource();
                     return result;
                 },executor))
                 .toArray(CompletableFuture[]::new);
@@ -65,12 +76,14 @@ public class ResortService {
                 }
             }
         }).join();
+        Arrays.sort(results);
         return results;
     }
 
-    public static Resort[] getResortByCoordinates(Double longitude, Double latitude) {
+    public static Resort[] getResortByCoordinates(Double longitude, Double latitude, Double distance) {
         if(results[0]==null) results = getAllResorts();
-        Resort[] filteredByCoordinates = Arrays.stream(results).filter(c -> c.isWithinCoordinates(longitude,latitude,null)).toArray(Resort[]::new);
+        Resort[] filteredByCoordinates = Arrays.stream(results).filter(c -> c.isWithinCoordinates(longitude,latitude,distance)).toArray(Resort[]::new);
+        Arrays.sort(filteredByCoordinates);
         return filteredByCoordinates;
     }
 }
