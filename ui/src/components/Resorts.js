@@ -40,7 +40,7 @@ function Resorts() {
     }
 
     const getResortsByLocation = (longitude , latitude ) => {
-        axios.get(resortServiceUrl + '/resort/' + longitude + '/' + latitude)
+        axios.get(resortServiceUrl + '/resort/' + longitude + '/' + latitude + '/' + 25.0)
             .then(res => {
                 console.log('GET RESORTS BY LOCATION: ', res.data)
                 res.data.map((resort, index) => (
@@ -49,6 +49,7 @@ function Resorts() {
     }
 
     const updateResortList = (resort, index) => {
+        if (!resortList.includes(resort.id)) {
         setResortList((prevState) => [...prevState, {
             id: resort.id,
             name: resort.name,
@@ -57,7 +58,7 @@ function Resorts() {
             weather: weather[index % weather.length],
             slopes: {easy: 150, medium: 90, hard: 30},
             location: {latitude: resort.latitude, longitude: resort.longitude}
-        }])
+        }]) }
     }
 
     /* Potential Functions for the future...
