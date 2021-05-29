@@ -1,0 +1,4 @@
+rootProject.name = 'resort'
+include 'common'
+include 'weather'
+
