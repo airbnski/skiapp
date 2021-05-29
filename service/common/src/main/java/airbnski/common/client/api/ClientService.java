@@ -3,65 +3,63 @@ package airbnski.common.client.api;
 import airbnski.common.client.model.AbstractEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
 
-@SpringBootApplication
+@Service
 public class ClientService<T> {
 
     private static final Logger log = LoggerFactory.getLogger(ClientService.class);
 
-    private String listUrl;
+    private Integer id;
+    private Double longitude;
+    private Double latitude;
+    private String apiKey;
     private String baseUrl;
-
-    public String getListUrl() {
-        return listUrl;
-    }
-
-    public String getBaseUrl() {
-        return baseUrl;
-    }
 
     public Class<AbstractEntity> returnClass() {
         return AbstractEntity.class;
     }
 
-    public Class<AbstractEntity[]> returnAllClass() {
-        return AbstractEntity[].class;
+    public String getApiKey() {
+        return apiKey;
+    }
+    public Double getLongitude() {
+        return longitude;
+    }
+    public Double getLatitude() {
+        return latitude;
+    }
+    public Integer getId() {
+        return id;
+    }
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
-    public static void main(String[] args) {
-        SpringApplication.run(ClientService.class, args);
+    public String generateUrl() {
+        if (getId() == null) return getBaseUrl()+"lat="+ getLatitude() +"&lon="+getLongitude()+"&appid="+getApiKey();
+        return getBaseUrl()+getId()+".json";
     }
 
-    @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder
-                .setConnectTimeout(Duration.ofMillis(250000))
-                .setReadTimeout(Duration.ofMillis(250000))
-                .build();
-    }
-
-    public String generateUrl(Integer id) {
-        return this.getBaseUrl()+id+".json";
-    }
-
-    public AbstractEntity getResource(Integer id) {
-        RestTemplate restTemplate = restTemplate(new RestTemplateBuilder());
-        AbstractEntity response = restTemplate.getForObject(this.generateUrl(id), returnClass());
-        log.info(response.toString());
-        return response;
-    }
-
-    public AbstractEntity[] getAllResources() {
-        RestTemplate restTemplate = restTemplate(new RestTemplateBuilder());
-        AbstractEntity[] response = restTemplate.getForObject(this.getListUrl(), returnAllClass());
-        log.info(response.toString());
-        return response;
+    @Async
+    public CompletableFuture<T> getResource() {
+        RestTemplate restTemplate = new RestTemplate();
+        String s = generateUrl();
+        T response = (T) restTemplate.getForObject(s, returnClass());
+        return CompletableFuture.completedFuture(response);
     }
 }
+

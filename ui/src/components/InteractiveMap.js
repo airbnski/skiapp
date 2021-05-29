@@ -1,7 +1,8 @@
-import {Map, GoogleApiWrapper, Marker, InfoWindow} from 'google-maps-react';
+import {Map, GoogleApiWrapper, Marker} from 'google-maps-react';
+import {useEffect} from "react";
 
 function InteractiveMap(props) {
-    const locations = [
+    /*const locations = [
         ['Flumserberg', 47.093661111111, 9.2853888888889],
         ['Toggenburg / Wildhaus', 47.2007645115355, 9.34400081634521],
         ['Pizol', 46.978846944253625, 9.435625076293947],
@@ -14,8 +15,11 @@ function InteractiveMap(props) {
         ['Schilt / Mollis', 47.07629255301451, 9.095667266845794],
         ['Appenzell (Skilift Sollen)', 47.32519957274132, 9.407597446441676],
         ['Ebnat-Kappel (Skilift Tanzboden)', 47.25115840145275, 9.110473060607935]
-    ];
+    ];*/
 
+    useEffect(() => {
+        console.log('Center map on lat=' + props.lat + ' long=' + props.long)
+    }, [props.lat, props.long])
     let state = {
         showingInfoWindow: true,
     };
@@ -26,14 +30,14 @@ function InteractiveMap(props) {
     }
 
     const displayMarkers = () => {
-        return locations.map((location, index) => {
-            return <Marker key={index} id={index} position={{
-                //lat: resort.latitude,
-                lat: location[1],
-                //lng: resort.longitude,
-                lng: location[2]
-            }} title={location[0]} name={'TESTINGGG'}
-               onClick={() => console.log("You clicked me!")}
+        return props.resorts.map((resort, index) => {
+            return <Marker key={index} id={resort.id} position={{
+                lat: resort.location.latitude,
+                //lat: location[1],
+                lng: resort.location.longitude,
+                //lng: location[2]
+            }} title={resort.name} name={'TESTINGGG'}
+               onClick={() => onMarkerClick()}
             />
         })
     }
@@ -50,7 +54,7 @@ function InteractiveMap(props) {
                 google={props.google}
                 zoom={10}
                 style={{ margin: 20, width: '70%', height: '80%'}}
-                initialCenter={{ lat: locations[0][1], lng: locations[0][2]}}
+                center={{ lat: props.lat, lng: props.long}}
             >
                 {displayMarkers()}
 
