@@ -78,16 +78,16 @@ const useStyles = makeStyles({
    * same values used in Material-Ui Card Demos
    */
   card: {
-    maxWidth: 345,
+    width: 345,
     borderRadius: ".5rem",
     height: 175,
-    margin: ".25rem"
+    margin: "1rem"
     
   },
   card2: {
     width: 345,
     borderRadius: ".5rem",
-    margin: ".25rem"
+    margin: "1rem"
     
   },
 
@@ -156,6 +156,7 @@ heading:{
     alignItems: "center"
 },featureRow: {
     display: "flex",
+    flexWrap: "wrap",
     justifyContent: "space-around",
     marginBottom: "2rem"
 }
