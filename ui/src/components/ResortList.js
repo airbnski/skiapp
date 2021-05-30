@@ -91,7 +91,7 @@ function ResortList(props) {
 
     return (
         <List>
-            {props.resorts ?
+            {props.resorts && props.resorts.length > 0 ?
                 (props.resorts.map((resort) =>
                     <div key={resort.id}>
                         <ListItem alignItems="flex-start" key={resort.id}>
@@ -127,7 +127,7 @@ function ResortList(props) {
                         </ListItem>
                         <Divider/>
                     </div>
-                )) : null}
+                )) : <p style={{textAlign: 'center'}}>No results</p>}
         </List>
     );
 
