@@ -15,8 +15,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import {positionStackAPIKey, positionStackUrl, resortServiceUrl} from '../config';
 
 
-function Resorts() {
-    const [resortList, setResortList] = useState([]);
+function Resorts(props) {
     // const resortIds = [3725, 15168, 3828, 1023, 3839, 15169, 4392, 1020, 1022, 4394, 1021, 3792]
     const weather = ['Sun', 'Cloud', 'Rain', 'Cloudy', 'Snow']
     const [searchLocation, setSearchLocation] = useState('Zurich')
@@ -31,7 +30,7 @@ function Resorts() {
     }, [])
 
     const searchForResorts = (loc = searchLocation, dist = searchDistance) => {
-        setResortList([])
+        props.clearResorts()
         if (dist !== searchDistance) {
             setSearchDistance(dist)
         }
@@ -50,33 +49,8 @@ function Resorts() {
         axios.get(resortServiceUrl + '/resort/' + longitude + '/' + latitude + '/' + radius)
             .then(res => {
                 console.log('GET RESORTS BY LOCATION: ', res.data)
-                updateResortList(res.data);
+                props.updateResortList(res.data);
             })
-    }
-
-    const updateResortList = (resorts) => {
-        const newList = resorts.map((resort, index) => {
-            return {
-                id: resort.id,
-                name: resort.name,
-                website: resort.website,
-                distance: resort.distance,
-                skiMapUrl: resort.image,
-                weather: {outlook: resort.weather.outlook, temperature: resort.weather.temperature},
-                slopes: {easy: resort.slope? resort.slope.easyDistance: 0, medium: resort.slope? resort.slope.mediumDistance: 0, hard: resort.slope? resort.slope.hardDistance: 0},
-                location: {latitude: resort.latitude, longitude: resort.longitude},
-                status: resort.status
-            }
-        })
-        const uniqueResorts = []
-        const resortIDsSeen = []
-        newList.forEach((r) => {
-            if (!resortIDsSeen.includes(r.id)) {
-                uniqueResorts.push(r)
-            }
-            resortIDsSeen.push(r.id)
-        })
-        setResortList(uniqueResorts)
     }
 
     /* Potential Functions for the future...
@@ -161,10 +135,10 @@ function Resorts() {
                     />
                     <FilterListIcon style={{ fontSize: 40 }} onClick={() => setShowFilters(!showFilters)}/>
                 </div>
-                <ResortList resorts={resortList}/>
+                <ResortList resorts={props.resortList}/>
             </Grid>
             <Grid item xs={9} style={{height: 'calc(100vh - 70px)'}}>
-                <InteractiveMap resorts={resortList} lat={searchLatitude} long={searchLongitude}/>
+                <InteractiveMap resorts={props.resortList} lat={searchLatitude} long={searchLongitude}/>
             </Grid>
             { showFilters ? <Filters open={showFilters} handleClose={() => setShowFilters(!showFilters)} search={searchForResorts} loc={searchLocation} currentDistance={searchDistance}/> : null}
         </Grid>
