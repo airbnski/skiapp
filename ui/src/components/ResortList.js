@@ -93,7 +93,7 @@ function ResortList(props) {
             {props.resorts && props.resorts.length > 0 ?
                 (props.resorts.map((resort) =>
                     <div key={resort.id} style={{boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px", borderRadius: ".5rem", marginBottom: ".5rem", marginTop: ".5rem" , display: "flex", minWidth: 300}}>
-                        <ListItem alignItems="flex-start" key={resort.id}  >
+                        <ListItem alignItems="flex-start" key={resort.id} onClick={() => props.updateLocation(resort.location.latitude, resort.location.longitude)}  >
                             <ListItemText>
                                 <div className={classes.resortCardTitle}>
                                     <div className={classes.resortCardMiniText}>

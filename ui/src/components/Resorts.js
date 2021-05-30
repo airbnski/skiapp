@@ -136,6 +136,11 @@ function Resorts(props) {
         props.updateResortList(newList, ["filtered"]);
     };
 
+    const updateLocation = (lat, long) => {
+        setSearchLatitude(lat)
+        setSearchLongitude(long)
+    }
+
     return (
         <Grid container spacing={2} style={{margin: 0, overflowX: "auto"}}>
             <Grid item xs={3} style={{height: 'calc(100vh - 70px)', overflowY: 'auto',}}>
@@ -155,7 +160,7 @@ function Resorts(props) {
                     />
                     <FilterListIcon style={{fontSize: 40}} onClick={() => setShowFilters(!showFilters)}/>
                 </div>
-                <ResortList resorts={props.filteredResortList} loading={props.loading}/>
+                <ResortList resorts={props.filteredResortList} loading={props.loading} updateLocation={updateLocation}/>
             </Grid>
             <Grid item xs={9} style={{height: 'calc(100vh - 70px)'}}>
                 <InteractiveMap resorts={props.filteredResortList} lat={searchLatitude} long={searchLongitude}/>
