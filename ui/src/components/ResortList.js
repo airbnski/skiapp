@@ -79,9 +79,9 @@ function ResortList(props) {
 
     const getSlopeLengths = (resort) => {
         const sum = resort.slopes.easy + resort.slopes.medium + resort.slopes.hard;
-        const easy = (resort.slopes.easy / sum) * slopeLineWidth;
-        const medium = (resort.slopes.medium / sum) * slopeLineWidth;
-        const hard = (resort.slopes.hard / sum) * slopeLineWidth;
+        const easy = resort.slopes.easy ? (resort.slopes.easy / sum) * slopeLineWidth : 0;
+        const medium = resort.slopes.medium ? (resort.slopes.medium / sum) * slopeLineWidth : 0;
+        const hard = resort.slopes.hard ? (resort.slopes.hard / sum) * slopeLineWidth : 0;
         return {easy: easy, medium: medium, hard: hard, total: sum};
     }
 
@@ -93,16 +93,16 @@ function ResortList(props) {
         <List>
             {props.resorts ?
                 (props.resorts.map((resort) =>
-                    <div>
+                    <div key={resort.id}>
                         <ListItem alignItems="flex-start" key={resort.id}>
                             <ListItemText>
-                                <Typography className={classes.resortCardTitle}>
+                                <div className={classes.resortCardTitle}>
                                     <div className={classes.resortCardMiniText}>
                                         {resort.distance.toFixed(0)}km
                                     </div>
                                     {resort.name}
-                                </Typography>
-                                <img src={getWeatherIcon(resort.weather.outlook)} height='50' width='50'
+                                </div>
+                                <img src={getWeatherIcon(resort.weather.outlook)} height='50px' width='50px'
                                      className={classes.weatherIcon}/>
                                 <Typography className={classes.resortCardBottomMiniText}>{convertTemp(resort.weather.temperature)}ºC</Typography>
                                 <Typography className={classes.resortCardMiniText}>{getSlopeLengths(resort).total} km downhill runs</Typography>
