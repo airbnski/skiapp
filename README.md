@@ -31,34 +31,34 @@ Make sure you're in the root directory `/skiapp`
 run docker-compose command `docker-compose up -d` using docker-compose.yaml file in the directory
 
 ## 1. React SPA served with Nginx Server
-**For development using source code**
+1. **For development using source code**
 
 View the readme file in `skiapp/ui` directory.
 
-**For making a docker image from source code**
+2. **For making a docker image from source code**
 
 cd into `skiapp/ui`
 
 run docker command `docker build -t airbnski/ui .` using Dockerfile in the directory
 
-**For running docker image individually**
+3. **For running docker image individually**
 
 run docker command `docker container run -d -p 80:80 airbnski/ui` 
 
 Important: The app is configured to work on port 80
 
 ## 2. Java Resort API microservice 
-**For development using source code**
+1. **For development using source code**
 
 View the readme file in `skiapp/service/resort` directory.
 
-**For making a docker image from source code**
+2. **For making a docker image from source code**
 
 cd into `skiapp/service/resort`
 
 run docker command `docker build -t airbnski/resort .` using Dockerfile in the directory
 
-**For running docker image individually**
+3. **For running docker image individually**
 
 run docker command `docker container run -d -p 8082:8082 airbnski/resort` 
 
@@ -66,17 +66,17 @@ Important: The app is configured to work on port 8082
 
 
 ## 3. Java Weather API microservice
-**For development using source code**
+1. **For development using source code**
 
 View the readme file in `skiapp/service/weather` directory.
 
-**For making a docker image from source code**
+2. **For making a docker image from source code**
 
 cd into `skiapp/service/weather`
 
 run docker command `docker build -t airbnski/weather .` using Dockerfile in the directory
 
-**For running docker image individually**
+3. **For running docker image individually**
 
 run docker command `docker container run -d -p 8081:8081 airbnski/weather` 
 
