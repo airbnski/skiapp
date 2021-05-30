@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import InteractiveMap from "./InteractiveMap";
 import ResortList from "./ResortList";
+import Filters from "./Filters";
 import {Grid, InputAdornment, MenuItem, Select, TextField} from "@material-ui/core";
 import {useEffect, useState} from "react";
 import Sun from "../images/001-sun.svg";
@@ -10,6 +11,7 @@ import Rain from "../images/003-rain.svg";
 import Cloudy from "../images/004-cloudy.svg";
 import Snow from "../images/005-snowflake.svg";
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
+import FilterListIcon from '@material-ui/icons/FilterList';
 import {positionStackAPIKey, positionStackUrl, resortServiceUrl} from '../config';
 
 
@@ -20,7 +22,8 @@ function Resorts() {
     const [searchLocation, setSearchLocation] = useState('Zurich')
     const [searchLatitude, setSearchLatitude] = useState(0)
     const [searchLongitude, setSearchLongitude] = useState(0)
-    const [searchDistance, setSearchDistance] = useState(30)
+    const [searchDistance, setSearchDistance] = useState(1000)
+    const [showFilters, setShowFilters] = useState(false)
 
 
     useEffect(() => {
@@ -29,6 +32,9 @@ function Resorts() {
 
     const searchForResorts = (loc = searchLocation, dist = searchDistance) => {
         setResortList([])
+        if (dist !== searchDistance) {
+            setSearchDistance(dist)
+        }
         getSearchCoordinates(loc)
             .then(potentialLocation => {
                 console.log('potentialLocation: ', potentialLocation)
@@ -136,15 +142,10 @@ function Resorts() {
         }
     }
 
-    const handleDistanceChange = (e) => {
-        setSearchDistance(e.target.value)
-        searchForResorts(searchLocation, e.target.value)
-    }
-
     return (
         <Grid container spacing={2} style={{margin: 0}}>
             <Grid item xs={3} style={{height: 'calc(100vh - 70px)', overflowY: 'auto'}}>
-                <div style={{display: 'flex', flexDirection: 'row'}}>
+                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                     <TextField id="location" type="text" label="Location" variant="outlined"
                                InputProps={{
                                    startAdornment: (
@@ -158,25 +159,14 @@ function Resorts() {
                                onChange={(e, s) => setSearchLocation(s)}
                                onKeyDown={handleKeyPress}
                     />
-                    <Select
-                        labelId="search-distance"
-                        id="search-distance"
-                        value={searchDistance}
-                        onChange={handleDistanceChange}
-                        variant="outlined"
-                    >
-                        <MenuItem value={10}>10</MenuItem>
-                        <MenuItem value={20}>20</MenuItem>
-                        <MenuItem value={30}>30</MenuItem>
-                        <MenuItem value={40}>40</MenuItem>
-                        <MenuItem value={50}>50</MenuItem>
-                    </Select>
+                    <FilterListIcon style={{ fontSize: 40 }} onClick={() => setShowFilters(!showFilters)}/>
                 </div>
                 <ResortList resorts={resortList}/>
             </Grid>
             <Grid item xs={9} style={{height: 'calc(100vh - 70px)'}}>
                 <InteractiveMap resorts={resortList} lat={searchLatitude} long={searchLongitude}/>
             </Grid>
+            { showFilters ? <Filters open={showFilters} handleClose={() => setShowFilters(!showFilters)} search={searchForResorts} loc={searchLocation} currentDistance={searchDistance}/> : null}
         </Grid>
     );
 }
