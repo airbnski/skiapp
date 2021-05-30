@@ -9,7 +9,8 @@ import {useEffect, useState} from "react";
 
 function App() {
 
-    const [resortList, setResortList] = useState([]);
+    const [resortList, setResortList] = useState([])
+    const [filteredResortList, setFilteredResortList] = useState([])
     const [allResortsList, setAllResortsList] = useState([])
 
     useEffect(() => {
