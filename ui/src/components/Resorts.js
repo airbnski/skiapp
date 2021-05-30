@@ -2,25 +2,37 @@ import axios from 'axios';
 
 import InteractiveMap from "./InteractiveMap";
 import ResortList from "./ResortList";
-import {Grid, InputAdornment, MenuItem, Select, TextField} from "@material-ui/core";
-import {useEffect, useState} from "react";
-import Sun from "../images/001-sun.svg";
-import Cloud from "../images/002-cloud.svg";
-import Rain from "../images/003-rain.svg";
-import Cloudy from "../images/004-cloudy.svg";
-import Snow from "../images/005-snowflake.svg";
+import Filters from "./Filters";
+import {Grid, InputAdornment, Snackbar, TextField} from "@material-ui/core";
+import {Component, useEffect, useState} from "react";
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
+import FilterListIcon from '@material-ui/icons/FilterList';
 import {positionStackAPIKey, positionStackUrl, resortServiceUrl} from '../config';
+import * as PropTypes from "prop-types";
 
 
-function Resorts() {
-    const [resortList, setResortList] = useState([]);
-    // const resortIds = [3725, 15168, 3828, 1023, 3839, 15169, 4392, 1020, 1022, 4394, 1021, 3792]
-    const weather = ['Sun', 'Cloud', 'Rain', 'Cloudy', 'Snow']
+class Alert extends Component {
+    render() {
+        return null;
+    }
+}
+
+Alert.propTypes = {
+    severity: PropTypes.string,
+    onClose: PropTypes.any,
+    children: PropTypes.node
+};
+
+function Resorts(props) {
     const [searchLocation, setSearchLocation] = useState('Zurich')
     const [searchLatitude, setSearchLatitude] = useState(0)
     const [searchLongitude, setSearchLongitude] = useState(0)
-    const [searchDistance, setSearchDistance] = useState(30)
+    const [searchDistance, setSearchDistance] = useState(1000)
+    const [showFilters, setShowFilters] = useState(false)
+    const [snackbarOpen, setSnackbarOpen] = useState(false)
+    const [snackbarMessage, setSnackbarMessage] = useState('')
+    const [currentWeather, setCurrentWeather] = useState('All')
+    const [currentTemperature, setCurrentTemperature] = useState([-5, 25])
 
 
     useEffect(() => {
@@ -28,49 +40,33 @@ function Resorts() {
     }, [])
 
     const searchForResorts = (loc = searchLocation, dist = searchDistance) => {
-        setResortList([])
-        getSearchCoordinates(loc)
+        props.clearResorts()
+        if (dist !== searchDistance) {
+            setSearchDistance(dist)
+        }
+        return getSearchCoordinates(loc)
             .then(potentialLocation => {
                 console.log('potentialLocation: ', potentialLocation)
                 if (potentialLocation) {
                     setSearchLatitude(potentialLocation.latitude)
                     setSearchLongitude(potentialLocation.longitude)
-                    getResortsByLocation(potentialLocation.longitude, potentialLocation.latitude, dist)
+                    return getResortsByLocation(potentialLocation.longitude, potentialLocation.latitude, dist)
                 }
             })
     }
 
     const getResortsByLocation = (longitude, latitude, radius) => {
-        axios.get(resortServiceUrl + '/resort/' + longitude + '/' + latitude + '/' + radius)
+        return axios.get(resortServiceUrl + '/resort/' + longitude + '/' + latitude + '/' + radius)
             .then(res => {
                 console.log('GET RESORTS BY LOCATION: ', res.data)
-                updateResortList(res.data);
+                if (res.data.length > 0) {
+                    props.updateResortList(res.data, ['normal', 'filtered']);
+                    return res.data
+                } else {
+                    //setSnackbarMessage('No results.')
+                    //setSnackbarOpen(true)
+                }
             })
-    }
-
-    const updateResortList = (resorts) => {
-        const newList = resorts.map((resort, index) => {
-            return {
-                id: resort.id,
-                name: resort.name,
-                website: resort.website,
-                distance: resort.distance,
-                skiMapUrl: resort.image,
-                weather: {outlook: resort.weather.outlook, temperature: resort.weather.temperature},
-                slopes: {easy: resort.slope? resort.slope.easyDistance: 0, medium: resort.slope? resort.slope.mediumDistance: 0, hard: resort.slope? resort.slope.hardDistance: 0},
-                location: {latitude: resort.latitude, longitude: resort.longitude},
-                status: resort.status
-            }
-        })
-        const uniqueResorts = []
-        const resortIDsSeen = []
-        newList.forEach((r) => {
-            if (!resortIDsSeen.includes(r.id)) {
-                uniqueResorts.push(r)
-            }
-            resortIDsSeen.push(r.id)
-        })
-        setResortList(uniqueResorts)
     }
 
     /* Potential Functions for the future...
@@ -110,7 +106,7 @@ function Resorts() {
                     id: resortId,
                     name: data.name,
                     website: data.official_website,
-                    skiMapUrl: data.ski_maps[0].media.original.url,
+                    image: data.ski_maps[0].media.original.url,
                     weather: weather[index % weather.length],
                     slopes: {easy: 150, medium: 90, hard: 30},
                     location: {latitude: data.latitude, longitude: data.longitude}
@@ -136,15 +132,31 @@ function Resorts() {
         }
     }
 
-    const handleDistanceChange = (e) => {
-        setSearchDistance(e.target.value)
-        searchForResorts(searchLocation, e.target.value)
+    const filterResorts = (distance, weather, minTemp, maxTemp) => {
+        console.log('FILTER RESULTS ON: ', distance, ', ', weather, ', ', minTemp, ' - ', maxTemp)
+        let newList = props.resortList
+        // Filter by distance
+        newList = newList.filter(r => r.distance <= distance)
+        setSearchDistance(distance)
+        console.log('New distance', newList)
+        // Filter by weather
+        setCurrentWeather(weather)
+        if (weather !== 'All') {
+            newList = newList.filter(r => r.weather.outlook === weather)
+            console.log('New weather', newList)
+        }
+        // Filter by temperature
+        newList = newList.filter(r => r.weather.temperature >= minTemp && r.weather.temperature <= maxTemp)
+        setCurrentTemperature([minTemp, maxTemp])
+        console.log('New temp', newList)
+
+        props.updateResortList(newList, ['filtered'])
     }
 
     return (
         <Grid container spacing={2} style={{margin: 0}}>
             <Grid item xs={3} style={{height: 'calc(100vh - 70px)', overflowY: 'auto'}}>
-                <div style={{display: 'flex', flexDirection: 'row'}}>
+                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                     <TextField id="location" type="text" label="Location" variant="outlined"
                                InputProps={{
                                    startAdornment: (
@@ -158,25 +170,23 @@ function Resorts() {
                                onChange={(e, s) => setSearchLocation(s)}
                                onKeyDown={handleKeyPress}
                     />
-                    <Select
-                        labelId="search-distance"
-                        id="search-distance"
-                        value={searchDistance}
-                        onChange={handleDistanceChange}
-                        variant="outlined"
-                    >
-                        <MenuItem value={10}>10</MenuItem>
-                        <MenuItem value={20}>20</MenuItem>
-                        <MenuItem value={30}>30</MenuItem>
-                        <MenuItem value={40}>40</MenuItem>
-                        <MenuItem value={50}>50</MenuItem>
-                    </Select>
+                    <FilterListIcon style={{fontSize: 40}} onClick={() => setShowFilters(!showFilters)}/>
                 </div>
-                <ResortList resorts={resortList}/>
+                <ResortList resorts={props.filteredResortList}/>
             </Grid>
             <Grid item xs={9} style={{height: 'calc(100vh - 70px)'}}>
-                <InteractiveMap resorts={resortList} lat={searchLatitude} long={searchLongitude}/>
+                <InteractiveMap resorts={props.filteredResortList} lat={searchLatitude} long={searchLongitude}/>
             </Grid>
+            {showFilters ?
+                <Filters open={showFilters} handleClose={() => setShowFilters(!showFilters)} search={filterResorts}
+                         updateDistance={searchForResorts}
+                         loc={searchLocation} currentDistance={searchDistance}
+                         currentWeather={currentWeather} currentTemperature={currentTemperature}/> : null}
+            <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={() => setSnackbarOpen(false)}>
+                <Alert onClose={() => setSnackbarOpen(false)} severity="info">
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </Grid>
     );
 }
