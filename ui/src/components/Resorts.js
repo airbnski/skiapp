@@ -135,10 +135,10 @@ function Resorts(props) {
                     />
                     <FilterListIcon style={{ fontSize: 40 }} onClick={() => setShowFilters(!showFilters)}/>
                 </div>
-                <ResortList resorts={props.resortList}/>
+                <ResortList resorts={props.filteredResortList}/>
             </Grid>
             <Grid item xs={9} style={{height: 'calc(100vh - 70px)'}}>
-                <InteractiveMap resorts={props.resortList} lat={searchLatitude} long={searchLongitude}/>
+                <InteractiveMap resorts={props.filteredResortList} lat={searchLatitude} long={searchLongitude}/>
             </Grid>
             { showFilters ? <Filters open={showFilters} handleClose={() => setShowFilters(!showFilters)} search={searchForResorts} loc={searchLocation} currentDistance={searchDistance}/> : null}
         </Grid>

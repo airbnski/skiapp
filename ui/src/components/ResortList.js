@@ -89,10 +89,6 @@ function ResortList(props) {
         return {easy: easy, medium: medium, hard: hard, total: sum};
     }
 
-    const convertTemp = (temperature) => {
-        return (temperature - 273.15).toFixed(0)
-    }
-
     return (
         <List>
             {props.resorts && props.resorts.length > 0 ?
@@ -108,7 +104,7 @@ function ResortList(props) {
                                 </div>
                                 <img src={getWeatherIcon(resort.weather.outlook)} height='50px' width='50px'
                                      className={classes.weatherIcon}/>
-                                <Typography className={classes.resortCardBottomMiniText}>{convertTemp(resort.weather.temperature)}ºC</Typography>
+                                <Typography className={classes.resortCardBottomMiniText}>{resort.weather.temperature.toFixed(0)}ºC</Typography>
                                 <Typography className={classes.resortCardMiniText}>{getSlopeLengths(resort).total} km downhill runs</Typography>
                                 <div style={{display: 'flex'}}>
                                     <div className={classes.slopeLine}

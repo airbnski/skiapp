@@ -20,11 +20,11 @@ function App() {
         axios.get(resortServiceUrl + '/resort')
             .then(res => {
                 console.log('GET ALL RESORTS: ', res.data);
-                updateResortList(res.data, true);
+                updateResortList(res.data, ['all']);
             })
     }
 
-    const updateResortList = (resorts, all=false) => {
+    const updateResortList = (resorts, type = ['normal']) => {
         const newList = resorts.map((resort, index) => {
             return {
                 id: resort.id,
@@ -32,8 +32,12 @@ function App() {
                 website: resort.website,
                 distance: resort.distance,
                 skiMapUrl: resort.image,
-                weather: {outlook: resort.weather.outlook, temperature: resort.weather.temperature},
-                slopes: {easy: resort.slope? resort.slope.easyDistance: 0, medium: resort.slope? resort.slope.mediumDistance: 0, hard: resort.slope? resort.slope.hardDistance: 0},
+                weather: {outlook: resort.weather.outlook, temperature: resort.weather.temperature > 200 ? resort.weather.temperature - 273.15 : resort.weather.temperature},
+                slopes: {
+                    easy: resort.slope ? resort.slope.easyDistance : resort.slopes ? resort.slopes.easy : 0,
+                    medium: resort.slope ? resort.slope.mediumDistance : resort.slopes ? resort.slopes.medium : 0,
+                    hard: resort.slope ? resort.slope.hardDistance :  resort.slopes ? resort.slopes.hard : 0
+                },
                 location: {latitude: resort.latitude, longitude: resort.longitude},
                 status: resort.status
             }
@@ -46,8 +50,19 @@ function App() {
             }
             resortIDsSeen.push(r.id)
         })
-        if (all) setAllResortsList(uniqueResorts)
-        else setResortList(uniqueResorts)
+        if (type.includes('all')) {
+            setAllResortsList(uniqueResorts)
+            console.log('All resorts updated', uniqueResorts)
+        }
+        if (type.includes('normal')) {
+            setResortList(uniqueResorts)
+            console.log('Normal resorts updated', uniqueResorts)
+
+        }
+        if (type.includes('filtered')) {
+            setFilteredResortList(uniqueResorts)
+            console.log('Filtered resorts updated', uniqueResorts)
+        }
     }
 
     const clearResorts = () => {
@@ -59,7 +74,8 @@ function App() {
             <Switch>
                 <Route path="/map">
                     <TopAppBar/>
-                    <Resorts updateResortList={updateResortList} resortList={resortList} clearResorts={clearResorts}/>
+                    <Resorts updateResortList={updateResortList} resortList={resortList}
+                             filteredResortList={filteredResortList} clearResorts={clearResorts}/>
                 </Route>
                 <Route path="/">
                     <HomePage/>

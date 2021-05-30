@@ -7,16 +7,53 @@ import {
     DialogTitle, MenuItem, Select,
     TextField
 } from "@material-ui/core";
-import ResortList from "./ResortList";
 import {useState} from "react";
 
+const useStyles = makeStyles({
+    formControl: {
+        width: '90%',
+        margin: '5px 5px'
+    },
+});
 
 function Filters(props) {
+    const classes = useStyles();
 
     const [searchDistance, setSearchDistance] = useState(props.currentDistance)
 
     const handleDistanceChange = (e) => {
         setSearchDistance(e.target.value)
+    }
+
+    const temperatureMarks = [
+        {
+            value: 0,
+            label: offset + '°C',
+        },
+        {
+            value: stepSize * magnifier,
+            label: offset + stepSize + '°C',
+        },
+        {
+            value: 2 * stepSize * magnifier,
+            label: offset + 2 * stepSize + '°C',
+        },
+        {
+            value: 3 * stepSize * magnifier,
+            label: offset + 3 * stepSize + '°C',
+        },
+        {
+            value: 4 * stepSize * magnifier,
+            label: offset + 4 * stepSize + '°C',
+        },
+        {
+            value: 5 * stepSize * magnifier,
+            label: offset + 5 * stepSize + '°C',
+        },
+    ];
+
+    const calculateTemp = (temp) => {
+        return temp / magnifier + offset
     }
 
     const submit = () => {
