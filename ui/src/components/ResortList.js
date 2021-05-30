@@ -62,13 +62,17 @@ function ResortList(props) {
     const getWeatherIcon = (weather) => {
         console.log(weather)
         switch (weather) {
-            case 'Sun':
+            case 'Clear':
                 return Sun;
             case 'Clouds':
                 return Cloud;
             case 'Rain':
                 return Rain;
-            case 'Cloudy':
+            case 'Thunderstorm':
+                return Rain;
+            case 'Drizzle':
+                return Rain;
+            case 'Atmosphere':
                 return Cloudy;
             case 'Snow':
                 return Snow;
