@@ -1,5 +1,6 @@
 import {Map, GoogleApiWrapper, Marker} from 'google-maps-react';
 import {useEffect} from "react";
+import {googleMapsApiKey} from "../config";
 
 function InteractiveMap(props) {
     /*const locations = [
@@ -64,5 +65,5 @@ function InteractiveMap(props) {
 }
 
 export default GoogleApiWrapper({
-    apiKey: 'AIzaSyD3d6K7s9hUo-RcxyA9VLn3gag2MeNFi4A'
+    apiKey: googleMapsApiKey
 })(InteractiveMap)
