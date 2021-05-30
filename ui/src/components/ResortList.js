@@ -13,15 +13,14 @@ const useStyles = makeStyles({
         padding: '5px 0px',
     },
     resortCardLink: {
-        fontSize: 12,
+        fontSize: 14,
         color: '#0070AF',
         paddingRight: 30
     },
     resortCardLinkIcon: {
         width: 22,
         color: '#0070AF',
-        position: 'relative',
-        top: 9,
+       
         padding: '0px 5px'
     },
     resortCardTopMiniText: {
@@ -32,24 +31,24 @@ const useStyles = makeStyles({
         right: 15,
     },
     resortCardBottomMiniText: {
-        fontSize: 10,
+        fontSize: 14,
         color: '#6F6F6F',
         position: 'absolute',
-        top: 115,
-        right: 35,
+        top: 105,
+        right: 30,
     },
     resortCardMiniText: {
-        fontSize: 10,
+        fontSize: 14,
         color: '#6F6F6F',
     },
     weatherIcon: {
         position: 'absolute',
         right: 20,
-        top: 55,
+        top: 50,
         fontSize: 55,
     },
     slopeLine: {
-        borderTopWidth: 4,
+        borderTopWidth: 6,
         borderTopStyle: 'solid',
         margin: '5px 0px',
     },
@@ -88,13 +87,13 @@ function ResortList(props) {
         const hard = resort.slopes.hard ? (resort.slopes.hard / sum) * slopeLineWidth : 0;
         return {easy: easy, medium: medium, hard: hard, total: sum};
     }
-
+//boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px";
     return (
-        <List>
+        <List style={{ marginLeft:".5rem"}} >
             {props.resorts && props.resorts.length > 0 ?
                 (props.resorts.map((resort) =>
-                    <div key={resort.id}>
-                        <ListItem alignItems="flex-start" key={resort.id}>
+                    <div key={resort.id} style={{boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px", borderRadius: ".5rem", marginBottom: ".5rem", marginTop: ".5rem" , display: "flex", minWidth: 400}}>
+                        <ListItem alignItems="flex-start" key={resort.id}  >
                             <ListItemText>
                                 <div className={classes.resortCardTitle}>
                                     <div className={classes.resortCardMiniText}>
@@ -105,7 +104,7 @@ function ResortList(props) {
                                 <img src={getWeatherIcon(resort.weather.outlook)} height='50px' width='50px'
                                      className={classes.weatherIcon}/>
                                 <Typography className={classes.resortCardBottomMiniText}>{resort.weather.temperature.toFixed(0)}ºC</Typography>
-                                <Typography className={classes.resortCardMiniText}>{getSlopeLengths(resort).total} km downhill runs</Typography>
+                                <Typography className={classes.resortCardMiniText}>{getSlopeLengths(resort).total} Kms of downhill runs</Typography>
                                 <div style={{display: 'flex'}}>
                                     <div className={classes.slopeLine}
                                          style={{borderTopColor: '#0070AF', width: getSlopeLengths(resort).easy}}/>
@@ -114,14 +113,16 @@ function ResortList(props) {
                                     <div className={classes.slopeLine}
                                          style={{borderTopColor: '#000000', width: getSlopeLengths(resort).hard}}/>
                                 </div>
-                                <Typography className={classes.resortCardMiniText}>Lifts: 4 Gondolas, 8 Chairlifts, 10
-                                    Surface Lifts</Typography>
+                                
                                 <Typography>
+                                    <div style={{display: "flex", alignItems: "center", }}>
                                     <MapIcon className={classes.resortCardLinkIcon}/>
                                     <a className={classes.resortCardLink} href={resort.image} target='_blank'>SkiMap</a>
                                     <PublicIcon className={classes.resortCardLinkIcon}/>
                                     <a className={classes.resortCardLink} href={resort.website}
                                        target='_blank'>Website</a>
+                                    </div>
+                                    
                                 </Typography>
                             </ListItemText>
                         </ListItem>
