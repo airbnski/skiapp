@@ -118,7 +118,7 @@ function ResortList(props) {
                                     Surface Lifts</Typography>
                                 <Typography>
                                     <MapIcon className={classes.resortCardLinkIcon}/>
-                                    <a className={classes.resortCardLink} href={resort.skiMapUrl} target='_blank'>SkiMap</a>
+                                    <a className={classes.resortCardLink} href={resort.image} target='_blank'>SkiMap</a>
                                     <PublicIcon className={classes.resortCardLinkIcon}/>
                                     <a className={classes.resortCardLink} href={resort.website}
                                        target='_blank'>Website</a>

@@ -106,7 +106,7 @@ function Resorts(props) {
                     id: resortId,
                     name: data.name,
                     website: data.official_website,
-                    skiMapUrl: data.ski_maps[0].media.original.url,
+                    image: data.ski_maps[0].media.original.url,
                     weather: weather[index % weather.length],
                     slopes: {easy: 150, medium: 90, hard: 30},
                     location: {latitude: data.latitude, longitude: data.longitude}
