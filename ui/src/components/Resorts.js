@@ -140,9 +140,9 @@ function Resorts(props) {
         setSearchDistance(distance)
         console.log('New distance', newList)
         // Filter by weather
+        setCurrentWeather(weather)
         if (weather !== 'All') {
             newList = newList.filter(r => r.weather.outlook === weather)
-            setCurrentWeather(weather)
             console.log('New weather', newList)
         }
         // Filter by temperature
