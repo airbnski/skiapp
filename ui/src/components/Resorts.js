@@ -155,7 +155,7 @@ function Resorts(props) {
                     />
                     <FilterListIcon style={{fontSize: 40}} onClick={() => setShowFilters(!showFilters)}/>
                 </div>
-                <ResortList resorts={props.filteredResortList}/>
+                <ResortList resorts={props.filteredResortList} loading={props.loading}/>
             </Grid>
             <Grid item xs={9} style={{height: 'calc(100vh - 70px)'}}>
                 <InteractiveMap resorts={props.filteredResortList} lat={searchLatitude} long={searchLongitude}/>

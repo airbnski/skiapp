@@ -12,9 +12,12 @@ function App() {
     const [resortList, setResortList] = useState([])
     const [filteredResortList, setFilteredResortList] = useState([])
     const [allResortsList, setAllResortsList] = useState([])
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
+        setLoading(true)
         getAllResortInfoFromAPI()
+        setLoading(false)
     }, [])
 
     const getAllResortInfoFromAPI = () => {
@@ -78,7 +81,7 @@ function App() {
                 <Route path="/map">
                     <TopAppBar/>
                     <Resorts updateResortList={updateResortList} resortList={resortList}
-                             filteredResortList={filteredResortList} clearResorts={clearResorts}/>
+                             filteredResortList={filteredResortList} clearResorts={clearResorts} loading={loading}/>
                 </Route>
                 <Route path="/">
                     <HomePage/>
