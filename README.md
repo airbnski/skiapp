@@ -1,57 +1,83 @@
-Version: 0.2
 # airbnski 
-This file describes the AirBNSki project components, repository structure and other know-how in order to successfully develop and deplopy the project.
+This file describes the AirBNSki micro-services based application and its components.
+Please visit our Wiki for more information: https://github.com/airbnski/skiapp/wiki.
 
-## Project Organization
-In order to complete our project we attempted to implement the agile scrum methodology.
+- The application can be accessed here: http://airbnski.ch
 
-### Task Scheduling
-- Sprint planning
-- Trello board screenshot
-- Project timeline (Gantt Chart)
+- The project source code accessed here: https://github.com/airbnski/skiapp
 
-### Versioning
-- Git branch strategy (export git branching graph with explanation)
+- The latest docker containers can be accessed here: https://hub.docker.com/u/airbnski
 
-### Pull Requests
-How we used pull requests....
+## Application Components
+Our application is based on a scalable micro-service architecture, and consists of 3 individiual micro services.
+1. React SPA served with Nginx Server
+2. Java Resort API microservice 
+3. Java Weather API microservice
 
-## Documentation
+**To access the microservicess in production**
 
-### Architecture
-- Visual of microservices
-- Explanations of microservices and structure
+All of AirBNSKi's infrastructure is hosted on the Google Cloud Platform.
 
-### Technologies
-What we used and why we chose to use it...
+- React Front: http://airbnski.ch `Port:80`
 
-### Code Documentation
-How we commented code...?
-* Readme included in every microservices directory
+- Resort Microservice: http://airbnski.ch:8082 `Port:8082`
 
-### API Documentation
-Link to swagger file here?
+- Weather Microservice: http://airbnski.ch:8081 `Port:8081`
 
-## How to Run it
-The code is accessible at https://github.com/airbnski/skiapp.
-In order to run the project you must take the following steps:
-(The whole thing should be runnable using docker as each microservice should be containerized.
+**To run the microservicess locally using Docker**
 
-### Frontend
-??? 
-```
-npm build
-npm start
-```
+Make sure you're in the root directory `/skiapp`
 
-### Backend / Services
-???
+run docker-compose command `docker-compose up -d` using docker-compose.yaml file in the directory
 
-## Testing and Continuous Integration
+## 1. React SPA served with Nginx Server
+1. **For development using source code**
 
-### Testing
-"The *testing* was part of you job. Report everything useful to describe the way you planned and performed the testing of your code."
+View the readme file in `skiapp/ui` directory.
 
-### Continuous Integration
-How and why we used Jenkins.
-- mention any quality check steps you applied 
+2. **For making a docker image from source code**
+
+cd into `skiapp/ui`
+
+run docker command `docker build -t airbnski/ui .` using Dockerfile in the directory
+
+3. **For running docker image individually**
+
+run docker command `docker container run -d -p 80:80 airbnski/ui` 
+
+Important: The app is configured to work on port 80
+
+## 2. Java Resort API microservice 
+1. **For development using source code**
+
+View the readme file in `skiapp/service/resort` directory.
+
+2. **For making a docker image from source code**
+
+cd into `skiapp/service/resort`
+
+run docker command `docker build -t airbnski/resort .` using Dockerfile in the directory
+
+3. **For running docker image individually**
+
+run docker command `docker container run -d -p 8082:8082 airbnski/resort` 
+
+Important: The app is configured to work on port 8082
+
+
+## 3. Java Weather API microservice
+1. **For development using source code**
+
+View the readme file in `skiapp/service/weather` directory.
+
+2. **For making a docker image from source code**
+
+cd into `skiapp/service/weather`
+
+run docker command `docker build -t airbnski/weather .` using Dockerfile in the directory
+
+3. **For running docker image individually**
+
+run docker command `docker container run -d -p 8081:8081 airbnski/weather` 
+
+Important: The app is configured to work on port 8081
