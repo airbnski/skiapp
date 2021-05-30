@@ -62,13 +62,17 @@ function ResortList(props) {
     const getWeatherIcon = (weather) => {
         console.log(weather)
         switch (weather) {
-            case 'Sun':
+            case 'Clear':
                 return Sun;
             case 'Clouds':
                 return Cloud;
             case 'Rain':
                 return Rain;
-            case 'Cloudy':
+            case 'Thunderstorm':
+                return Rain;
+            case 'Drizzle':
+                return Rain;
+            case 'Atmosphere':
                 return Cloudy;
             case 'Snow':
                 return Snow;
@@ -79,32 +83,28 @@ function ResortList(props) {
 
     const getSlopeLengths = (resort) => {
         const sum = resort.slopes.easy + resort.slopes.medium + resort.slopes.hard;
-        const easy = (resort.slopes.easy / sum) * slopeLineWidth;
-        const medium = (resort.slopes.medium / sum) * slopeLineWidth;
-        const hard = (resort.slopes.hard / sum) * slopeLineWidth;
+        const easy = resort.slopes.easy ? (resort.slopes.easy / sum) * slopeLineWidth : 0;
+        const medium = resort.slopes.medium ? (resort.slopes.medium / sum) * slopeLineWidth : 0;
+        const hard = resort.slopes.hard ? (resort.slopes.hard / sum) * slopeLineWidth : 0;
         return {easy: easy, medium: medium, hard: hard, total: sum};
-    }
-
-    const convertTemp = (temperature) => {
-        return (temperature - 273.15).toFixed(0)
     }
 
     return (
         <List>
-            {props.resorts ?
+            {props.resorts && props.resorts.length > 0 ?
                 (props.resorts.map((resort) =>
-                    <div>
+                    <div key={resort.id}>
                         <ListItem alignItems="flex-start" key={resort.id}>
                             <ListItemText>
-                                <Typography className={classes.resortCardTitle}>
+                                <div className={classes.resortCardTitle}>
                                     <div className={classes.resortCardMiniText}>
                                         {resort.distance.toFixed(0)}km
                                     </div>
                                     {resort.name}
-                                </Typography>
-                                <img src={getWeatherIcon(resort.weather.outlook)} height='50' width='50'
+                                </div>
+                                <img src={getWeatherIcon(resort.weather.outlook)} height='50px' width='50px'
                                      className={classes.weatherIcon}/>
-                                <Typography className={classes.resortCardBottomMiniText}>{convertTemp(resort.weather.temperature)}ºC</Typography>
+                                <Typography className={classes.resortCardBottomMiniText}>{resort.weather.temperature.toFixed(0)}ºC</Typography>
                                 <Typography className={classes.resortCardMiniText}>{getSlopeLengths(resort).total} km downhill runs</Typography>
                                 <div style={{display: 'flex'}}>
                                     <div className={classes.slopeLine}
@@ -127,7 +127,7 @@ function ResortList(props) {
                         </ListItem>
                         <Divider/>
                     </div>
-                )) : null}
+                )) : <p style={{textAlign: 'center'}}>No results</p>}
         </List>
     );
 
