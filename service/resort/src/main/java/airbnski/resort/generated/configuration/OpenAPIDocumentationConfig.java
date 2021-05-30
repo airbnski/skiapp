@@ -26,7 +26,7 @@ public class OpenAPIDocumentationConfig {
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
             .title("AirBNSki Resort Microservice API")
-            .description("This is the official REST API specification for AirBNSKI Resort Microservice.")
+            .description("This is the official REST API specification for AirBNSKI Resort Microservice. https://github.com/airbnski/skiapp/wiki")
             .license("")
             .licenseUrl("http://unlicense.org")
             .termsOfServiceUrl("")
