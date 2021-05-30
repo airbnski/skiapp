@@ -39,7 +39,9 @@ function App() {
                     medium: resort.slope ? resort.slope.mediumDistance : resort.slopes ? resort.slopes.medium : 0,
                     hard: resort.slope ? resort.slope.hardDistance :  resort.slopes ? resort.slopes.hard : 0
                 },
-                location: {latitude: resort.latitude, longitude: resort.longitude},
+                location: {
+                    latitude: resort.latitude ? resort.latitude : resort.location ? resort.location.latitude : 0,
+                    longitude: resort.longitude ? resort.longitude : resort.location ? resort.location.longitude : 0},
                 status: resort.status
             }
         })
