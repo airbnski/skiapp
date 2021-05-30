@@ -25,7 +25,11 @@ export default function TopAppBar() {
         <AppBar position="static">
             <Toolbar className={classes.toolbar}>
                 <Typography variant="h6">
-                    AirBNSki
+                <Link to="/">
+                        <Button className={classes.button}>AirBNSki</Button>
+                    </Link>
+                    
+                    
                 </Typography>
                 <div className={classes.nav}>
                     <Link to="/map">

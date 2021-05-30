@@ -32,7 +32,7 @@ function App() {
                 name: resort.name,
                 website: resort.website,
                 distance: resort.distance,
-                skiMapUrl: resort.image,
+                image: resort.image,
                 weather: {outlook: resort.weather.outlook, temperature: resort.weather.temperature > 200 ? resort.weather.temperature - 273.15 : resort.weather.temperature},
                 slopes: {
                     easy: resort.slope ? resort.slope.easyDistance : resort.slopes ? resort.slopes.easy : 0,
