@@ -14,7 +14,7 @@ Our application is based on a scalable micro-service architecture, and consists 
 2. Java Resort API microservice 
 3. Java Weather API microservice
 
-**To access the microservicess in production**
+**To access the microservices in production**
 
 All of AirBNSKi's infrastructure is hosted on the Google Cloud Platform.
 
@@ -23,6 +23,8 @@ All of AirBNSKi's infrastructure is hosted on the Google Cloud Platform.
 - Resort Microservice: http://airbnski.ch:8082 `Port:8082`
 
 - Weather Microservice: http://airbnski.ch:8081 `Port:8081`
+
+- Common Microservice
 
 **To run the microservicess locally using Docker**
 

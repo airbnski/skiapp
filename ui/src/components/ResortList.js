@@ -1,4 +1,4 @@
-import {Divider, List, ListItem, ListItemText, makeStyles, Typography} from "@material-ui/core";
+import {CircularProgress, Divider, List, ListItem, ListItemText, makeStyles, Typography} from "@material-ui/core";
 import MapIcon from '@material-ui/icons/Map';
 import PublicIcon from '@material-ui/icons/Public';
 import Sun from '../images/001-sun.svg';
@@ -6,6 +6,7 @@ import Cloud from '../images/002-cloud.svg';
 import Rain from '../images/003-rain.svg';
 import Cloudy from '../images/004-cloudy.svg';
 import Snow from '../images/005-snowflake.svg';
+import {useState} from "react";
 
 const useStyles = makeStyles({
     resortCardTitle: {
@@ -59,7 +60,6 @@ function ResortList(props) {
     const slopeLineWidth = 250;
 
     const getWeatherIcon = (weather) => {
-        console.log(weather)
         switch (weather) {
             case 'Clear':
                 return Sun;
@@ -92,8 +92,8 @@ function ResortList(props) {
         <List style={{ marginLeft:".5rem"}} >
             {props.resorts && props.resorts.length > 0 ?
                 (props.resorts.map((resort) =>
-                    <div key={resort.id} style={{boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px", borderRadius: ".5rem", marginBottom: ".5rem", marginTop: ".5rem" , display: "flex", minWidth: 400}}>
-                        <ListItem alignItems="flex-start" key={resort.id}  >
+                    <div key={resort.id} style={{boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px", borderRadius: ".5rem", marginBottom: ".5rem", marginTop: ".5rem" , display: "flex", minWidth: 300}}>
+                        <ListItem alignItems="flex-start" key={resort.id} onClick={() => props.updateLocation(resort.location.latitude, resort.location.longitude)}  >
                             <ListItemText>
                                 <div className={classes.resortCardTitle}>
                                     <div className={classes.resortCardMiniText}>
@@ -128,7 +128,8 @@ function ResortList(props) {
                         </ListItem>
                         <Divider/>
                     </div>
-                )) : <p style={{textAlign: 'center'}}>No results</p>}
+                )) : props.loading ? <CircularProgress />
+                    : <p style={{textAlign: 'center'}}>No results</p>}
         </List>
     );
 
